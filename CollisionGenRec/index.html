@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation</title>
+  <meta name="description" content="SID collisions inflate Hit@10 by up to 103% (CIKM 2026). Collision-Corrected Evaluation scores item-level hits; Zero-Collision Reassignment removes collisions.">
+  <meta name="color-scheme" content="light">
+  <link rel="canonical" href="https://nishikata97.github.io/CollisionGenRec/">
+  <meta name="citation_title" content="Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation">
+  <meta name="citation_author" content="Zhang, Qian">
+  <meta name="citation_author" content="Szymanski, Lech">
+  <meta name="citation_author" content="Deng, Jeremiah D.">
+  <meta name="citation_author" content="Zhang, Haibo">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)">
+  <meta name="citation_publisher" content="ACM">
+  <meta name="citation_arxiv_id" content="2605.25330">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2605.25330">
+  <meta property="og:title" content="Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation">
+  <meta property="og:description" content="Did you find the item or just match the SID? Collision-Corrected Evaluation (CCE) and Zero-Collision Reassignment (ZCR) for SID-based generative recommendation. CIKM 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nishikata97.github.io/CollisionGenRec/">
+  <meta property="og:image" content="https://nishikata97.github.io/CollisionGenRec/static/img/social.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Did you find the item or just match the SID? Under SID collision, one SID maps to several items, so standard Hit@K overstates item-level hits.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation">
+  <meta name="twitter:description" content="SID collisions inflate Hit@10 by up to 103% and flip tokenizer rankings. CCE fixes the metric; ZCR removes the collisions. CIKM 2026.">
+  <meta name="twitter:image" content="https://nishikata97.github.io/CollisionGenRec/static/img/social.png">
+  <meta name="twitter:image:alt" content="Did you find the item or just match the SID? Under SID collision, one SID maps to several items, so standard Hit@K overstates item-level hits.">
+  <link rel="icon" href="static/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="static/img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<svg hidden>
+  <!-- Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0) Copyright 2024 Fonticons, Inc. -->
+  <!-- arXiv icon from Academicons 1.9.4 - https://jpswalsh.github.io/academicons/ (SIL OFL 1.1) -->
+  <symbol id="icon-arxiv" viewBox="0 0 448 512"><path transform="matrix(1.5499998,0,0,-1.5499998,-123.19936,553.59966)" d="m 119.65,351.996 c -5.84961,0.13477 -11.1943,-3.29883 -13.502,-8.67578 -2.19629,-5.27051 -0.61914,-8.9668 4.19727,-15.8652 7.05469,-10.3799 78.8242,-96.5625 78.8242,-96.5625 l -15.8828,-14.8633 c -13.3809,-13.3779 -13.9561,-31.333 -1.50977,-43.7754 l 18.4922,-17.6133 -51.5977,-63.377 c -4.00586,-4.26758 -6.48535,-11.7559 -4.24805,-17.1309 2.27832,-5.53613 7.69727,-9.12891 13.6836,-9.07031 3.83398,0.0957 7.43262,1.87402 9.83789,4.86133 l 61.3691,57.0566 94.5762,-90.0703 c 3.19434,-3.08398 7.44336,-4.83984 11.8828,-4.91016 1.60449,0.0039 3.19824,0.245117 4.73242,0.714844 5.7793,1.80566 10.249,6.41797 11.8711,12.252 1.2998,5.47363 -0.27637,11.2334 -4.18164,15.2832 l -83.0859,100.011996 14.8789,13.834 c 11.0957,10.0029 11.1543,27.3906 0.12695,37.4688 l -16.2949,15.6309 56.2559,66.4434 0.0742,0.0859 0.0664,0.0899 c 5.02734,6.53125 7.43164,11.5615 4.83984,17.9395 -3.13379,5.96875 -8.69727,10.29 -15.2559,11.8516 -0.67676,0.0908 -1.35938,0.13574 -2.04297,0.13671 l -0.004,-0.0117 c -4.42871,-0.27051 -8.61035,-2.13086 -11.7754,-5.24023 l -0.13086,-0.10743 -0.12304,-0.11132 -65.207,-59.127 -89.8965,86.2402 c 0,0 -5.33398,6.47754 -10.9707,6.61133 z m 178.104,-33.041 c 0.47852,-0.002 0.95703,-0.0332 1.43164,-0.0957 4.84277,-1.33301 8.95605,-4.54004 11.4316,-8.91016 1.44922,-3.5625 1.00293,-6.45703 -4.19727,-13.2148 l -56.0586,-66.2188 -26.375,25.3027 64.9551,58.9062 c 2.33887,2.41504 5.46484,3.91113 8.8125,4.2168 v 0.0137 z M 192.436,227.402 334.446,57.244 c 2.78711,-3.48926 4.5293,-6.97949 3.3418,-10.9121 -1.16113,-4.30273 -4.43457,-7.71777 -8.68555,-9.05664 -1.08105,-0.333984 -2.20508,-0.503906 -3.33594,-0.505859 -3.20801,0.07617 -6.26953,1.35645 -8.57617,3.58789 l -142.033,135.284999 c -11.1719,11.1719 -9.48242,26.0195 1.39258,36.8945 z"/></symbol>
+  <symbol id="icon-github" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></symbol>
+  <symbol id="icon-linkedin" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></symbol>
+  <symbol id="icon-arrow-trend-up" viewBox="0 0 576 512"><path d="M384 160c-17.7 0-32-14.3-32-32s14.3-32 32-32H544c17.7 0 32 14.3 32 32V288c0 17.7-14.3 32-32 32s-32-14.3-32-32V205.3L342.6 374.6c-12.5 12.5-32.8 12.5-45.3 0L192 269.3 54.6 406.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160c12.5-12.5 32.8-12.5 45.3 0L320 306.7 466.7 160H384z"/></symbol>
+  <symbol id="icon-arrows-up-down" viewBox="0 0 320 512"><path d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V402.7L86.6 361.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7V109.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96z"/></symbol>
+  <symbol id="icon-wand-magic-sparkles" viewBox="0 0 576 512"><path d="M234.7 42.7L197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1L248.8 123c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2L277.3 42.7 263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5L234.7 42.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0L529.9 116.5c18.7-18.7 18.7-49.1 0-67.9L495.3 14.1c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96 106.8 39.5C105.1 35 100.8 32 96 32s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/></symbol>
+  <symbol id="icon-sitemap" viewBox="0 0 576 512"><path d="M208 80c0-26.5 21.5-48 48-48h64c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48h-8v40H464c30.9 0 56 25.1 56 56v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H464c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-4.4-3.6-8-8-8H312v40h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H256c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V280H112c-4.4 0-8 3.6-8 8v32h8c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V368c0-26.5 21.5-48 48-48h8V288c0-30.9 25.1-56 56-56H264V192h-8c-26.5 0-48-21.5-48-48V80z"/></symbol>
+  <symbol id="icon-arrow-down" viewBox="0 0 384 512"><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></symbol>
+  <symbol id="icon-hand-pointer" viewBox="0 0 448 512"><path d="M128 40c0-22.1 17.9-40 40-40s40 17.9 40 40V188.2c8.5-7.6 19.7-12.2 32-12.2c20.6 0 38.2 13 45 31.2c8.8-9.3 21.2-15.2 35-15.2c25.3 0 46 19.5 47.9 44.3c8.5-7.7 19.8-12.3 32.1-12.3c26.5 0 48 21.5 48 48v48 16 48c0 70.7-57.3 128-128 128l-16 0H240l-.1 0h-5.2c-5 0-9.9-.3-14.7-1c-55.3-5.6-106.2-34-140-79L8 336c-13.3-17.7-9.7-42.7 8-56s42.7-9.7 56 8l56 74.7V40zM240 304c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304zm48-16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304c0-8.8-7.2-16-16-16zm80 16c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16s16-7.2 16-16V304z"/></symbol>
+  <symbol id="icon-mug-hot" viewBox="0 0 512 512"><path d="M88 0C74.7 0 64 10.7 64 24c0 38.9 23.4 59.4 39.1 73.1l1.1 1C120.5 112.3 128 119.9 128 136c0 13.3 10.7 24 24 24s24-10.7 24-24c0-38.9-23.4-59.4-39.1-73.1l-1.1-1C119.5 47.7 112 40.1 112 24c0-13.3-10.7-24-24-24zM32 192c-17.7 0-32 14.3-32 32V416c0 53 43 96 96 96H288c53 0 96-43 96-96h16c61.9 0 112-50.1 112-112s-50.1-112-112-112H352 32zm352 64h16c26.5 0 48 21.5 48 48s-21.5 48-48 48H384V256zM224 24c0-13.3-10.7-24-24-24s-24 10.7-24 24c0 38.9 23.4 59.4 39.1 73.1l1.1 1C232.5 112.3 240 119.9 240 136c0 13.3 10.7 24 24 24s24-10.7 24-24c0-38.9-23.4-59.4-39.1-73.1l-1.1-1C231.5 47.7 224 40.1 224 24z"/></symbol>
+  <symbol id="icon-copy" viewBox="0 0 448 512"><path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z"/></symbol>
+</svg>
+
+<a class="skip-link" href="#content">Skip to content</a>
+<nav class="site-nav" aria-label="Sections">
+  <a href="#top">Overview</a>
+  <a href="#abstract">Abstract</a>
+  <a href="#problem">Problem</a>
+  <a href="#observation">Collisions</a>
+  <a href="#method">Method</a>
+  <a href="#results">Results</a>
+  <a href="#qa">Q&amp;A</a>
+  <a href="#bibtex">Citation</a>
+</nav>
+
+<header class="hero" id="top">
+  <p class="venue"><a href="https://cikm2026.diag.uniroma1.it/"><img src="static/img/cikm2026_logo.png" width="336" height="257" alt="CIKM 2026, Rome, Italy (conference website)"></a></p>
+  <h1 class="title">Faithful Evaluation of <span class="nowrap">Semantic-ID</span> Tokenizers for Generative Recommendation</h1>
+  <p class="tagline">Did you find the <span class="item">item</span> or just match the <span class="sid">SID</span>?</p>
+  <p class="authors">
+    <span class="nowrap"><a href="../">Qian Zhang</a><sup>1</sup></span><span class="sep">&middot;</span>
+    <span class="nowrap"><a href="https://orcid.org/0000-0002-5192-0304">Lech Szymanski</a><sup>1</sup></span><span class="sep">&middot;</span>
+    <span class="nowrap"><a href="https://orcid.org/0000-0003-3727-4403">Jeremiah D. Deng</a><sup>1</sup></span><span class="sep">&middot;</span>
+    <span class="nowrap"><a href="https://orcid.org/0000-0002-3752-0806">Haibo Zhang</a><sup>2</sup></span>
+  </p>
+  <div class="affil-logos">
+    <span class="aff"><sup>1</sup><img src="static/img/otago_logo.png" alt="University of Otago" width="120" height="44"></span>
+    <span class="aff"><sup>2</sup><img src="static/img/unsw_logo.png" alt="University of New South Wales (UNSW Sydney)" width="103" height="44"></span>
+  </div>
+  <div class="buttons">
+    <a class="btn" href="https://arxiv.org/abs/2605.25330"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-arxiv"/></svg> Paper</a>
+    <a class="btn" href="https://github.com/Nishikata97/CollisionGenRec"><svg class="icon" viewBox="0 0 496 512" aria-hidden="true"><use href="#icon-github"/></svg> Code &amp; SID indexes</a>
+    <a class="btn" href="https://www.linkedin.com/in/qian-zhang-04b975302/"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-linkedin"/></svg> LinkedIn</a>
+  </div>
+</header>
+
+<main id="content">
+  <div class="tldr">
+    <strong>TL;DR</strong>
+    <span class="tldr-short">Semantic-ID collisions inflate Hit@10 by up to <span class="accent-red">103%</span>. <strong>CCE</strong> scores item-level hits; <strong>ZCR</strong> removes the collisions.</span>
+    <span class="tldr-long">In generative recommenders that represent items by Semantic IDs (SIDs), many items can share one SID,
+    so standard Hit@10 overstates item-level accuracy by up to <span class="accent-red">103%</span>. We propose <strong>Collision-Corrected Evaluation (CCE)</strong>, item-level metrics computed from generated SIDs,
+    and <strong>Zero-Collision Reassignment (ZCR)</strong>, a minimum-cost reassignment that removes collisions.</span>
+  </div>
+
+  <div class="hero-row">
+    <figure class="hero-figure">
+      <img src="static/img/intro_hero.svg" width="914" height="562" fetchpriority="high" alt="Zero collision: three measuring tools map to three distinct SIDs, so hitting one SID means hitting one item and Hit@K is valid. High collision: a Mini and a Standard 3D printer map to the same SID, so hitting that SID can mean several items and Hit@K is inflated.">
+      <figcaption>Without collisions, each SID identifies one item, so a SID hit is an item hit. With collisions, one SID maps to several items, so standard Hit@$K$ overstates item-level hits.</figcaption>
+    </figure>
+    <div class="finding-cards">
+      <a class="finding inflation" href="#inflation">
+        <span class="finding-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 576 512"><use href="#icon-arrow-trend-up"/></svg></span>
+        <span><span class="finding-num">103%</span>
+        <span class="finding-text">Hit@10 overstates item-level hits by up to 103%.</span></span>
+      </a>
+      <a class="finding flip" href="#inflation">
+        <span class="finding-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 320 512"><use href="#icon-arrows-up-down"/></svg></span>
+        <span><span class="finding-num">1st &rarr; last</span>
+        <span class="finding-text">RK-Means: 1st by Hit@10 &rarr; last by ItemHit@10 on 3 of 4 datasets.</span></span>
+      </a>
+      <a class="finding improve" href="#performance">
+        <span class="finding-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 576 512"><use href="#icon-wand-magic-sparkles"/></svg></span>
+        <span><span class="finding-num">+41.9%</span>
+        <span class="finding-text">Largest ItemNDCG@10 gain from ZCR; every tokenizer improves.</span></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a class="cta" href="#cce-demo"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><use href="#icon-sitemap"/></svg> Try CCE: when is a SID hit not an item hit? <svg class="icon" viewBox="0 0 384 512" aria-hidden="true"><use href="#icon-arrow-down"/></svg></a>
+    <a class="cta zcr" href="#zcr-demo"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-hand-pointer"/></svg> Try ZCR: which item should be reassigned? <svg class="icon" viewBox="0 0 384 512" aria-hidden="true"><use href="#icon-arrow-down"/></svg></a>
+  </div>
+
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <p class="abstract" id="abstract-text">Generative recommendation based on Semantic IDs (SIDs) represents each item as a discrete sequence of SIDs and is conventionally evaluated by matching the generated SID sequence against the target item&rsquo;s SID sequence. This evaluation is faithful only when each SID sequence uniquely identifies one item. In practice, SID collisions violate this condition: across the evaluated SID tokenizers and datasets, collision rates reach 30.52%, and SID-level Hit@10 is inflated by up to 103.36% relative to item-level Hit@10. To address this evaluation gap, we introduce Collision-Corrected Evaluation (CCE), which defines collision-aware item-level metrics (ItemHit@$K$, ItemNDCG@$K$) computed from generated SID sequences, and Zero-Collision Reassignment (ZCR), which constructs zero-collision SID assignments for existing tokenizers via minimum-cost reassignment. Applying these methods to four datasets and five representative SID tokenizers, we find that metric inflation scales with collision rate and is large enough to flip pairwise tokenizer comparisons under item-level re-evaluation. This finding calls into question the reliability of SID-level rankings reported in prior work and indicates that faithful tokenizer evaluation requires item-level correction or zero-collision SID assignments.</p>
+    <button type="button" class="read-more" aria-controls="abstract-text" hidden>Read the full abstract</button>
+  </section>
+
+  <section id="problem">
+    <h2>One SID match &ne; one item hit</h2>
+    <p class="lead-in"><strong>Background: SID-based generative recommendation.</strong></p>
+    <figure>
+      <div class="fig-scroll" style="--mw:660px"><img src="static/img/intro_pipeline.svg" width="946" height="157" loading="lazy" alt="Item text (titles, categories, brands) is encoded by a pretrained language model and quantized into a SID sequence; an autoregressive model with beam search outputs the top-K predicted SID sequences."></div>
+      <figcaption>Each item is tokenized into a short sequence of discrete codes (its SID). An autoregressive model then generates the SID of the next item, and beam search returns a ranked list of SIDs, not items.</figcaption>
+    </figure>
+    <p class="lead-in"><strong>Problem: SID collisions.</strong><br>Different items can share one SID, forming a <em>collision group</em>. Hit@$K$ still counts a hit on that SID as a full item hit, so it overstates item-level accuracy and can favor tokenizers with more collisions.</p>
+    <p class="lead-in"><strong>Research questions.</strong></p>
+    <ul class="rq">
+      <li><strong>RQ1</strong> How much do collisions inflate SID-level metrics? <a href="#inflation">Results</a></li>
+      <li><strong>RQ2</strong> Does item-level evaluation change the tokenizer ranking? <a href="#inflation">Results</a></li>
+      <li><strong>RQ3</strong> Can ZCR remove all collisions at low reassignment cost, and how does item-level performance change? <a href="#performance">Results</a></li>
+    </ul>
+  </section>
+
+  <section id="observation">
+    <h2>Up to 30.52% of items share their SID</h2>
+    <div class="coll-cards">
+      <div class="coll-card">
+        <h3>Scientific</h3>
+        <div class="coll-row">
+          <span>RQ-VAE</span>
+          <span class="coll-rate">20.42%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:66.9%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 22</span>
+        </div>
+        <div class="coll-row">
+          <span>RK-Means</span>
+          <span class="coll-rate">30.52%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:100.0%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 26</span>
+        </div>
+      </div>
+      <div class="coll-card">
+        <h3>Cell</h3>
+        <div class="coll-row">
+          <span>RQ-VAE</span>
+          <span class="coll-rate">14.04%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:46.0%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 34</span>
+        </div>
+        <div class="coll-row">
+          <span>RK-Means</span>
+          <span class="coll-rate">28.52%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:93.4%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 56</span>
+        </div>
+      </div>
+      <div class="coll-card">
+        <h3>Beauty</h3>
+        <div class="coll-row">
+          <span>RQ-VAE</span>
+          <span class="coll-rate">8.52%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:27.9%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 12</span>
+        </div>
+        <div class="coll-row">
+          <span>RK-Means</span>
+          <span class="coll-rate">21.58%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:70.7%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 18</span>
+        </div>
+      </div>
+      <div class="coll-card">
+        <h3>Yelp</h3>
+        <div class="coll-row">
+          <span>RQ-VAE</span>
+          <span class="coll-rate">9.05%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:29.7%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 65</span>
+        </div>
+        <div class="coll-row">
+          <span>RK-Means</span>
+          <span class="coll-rate">15.73%</span>
+          <span class="coll-bar" aria-hidden="true"><span style="width:51.5%"></span></span>
+          <span class="coll-gmax">G<sub>max</sub> = 65</span>
+        </div>
+      </div>
+    </div>
+    <p class="caption-center">Collision rate (share of items whose SID is shared with at least one other item) and size of the largest collision group G<sub>max</sub>. Bars use a common scale up to 30.52%.</p>
+    <div class="funfact">
+      <span class="funfact-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 512 512"><use href="#icon-mug-hot"/></svg></span>
+      <div>
+        <p class="funfact-title">65 Starbucks, one SID</p>
+        <p>On Yelp, 65 Starbucks locations share the same name and categories (&ldquo;Food, Coffee &amp; Tea&rdquo;), so both tokenizers map them to one SID, the largest collision group in our study. Given that SID, no model can tell which Starbucks the user visited.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2>CCE corrects the metric; ZCR removes the collisions</h2>
+    <ul class="method-list">
+      <li><strong>Collision-Corrected Evaluation (CCE)</strong> turns SID-level hits into item-level credit, without retraining.</li>
+      <li><strong>Zero-Collision Reassignment (ZCR)</strong> gives every tokenizer a collision-free SID assignment at minimum cost, so no tokenizer gains from collisions.</li>
+    </ul>
+
+    <h3 id="cce">1. CCE: count hits per item, not per SID</h3>
+    <figure class="wide">
+      <div class="fig-scroll" style="--mw:520px"><img src="static/img/cce.svg" width="571" height="212" loading="lazy" alt="Collision-corrected top-5 example. Five generated SIDs are ranked; the target SID is at rank 4. Expanding each SID into its collision group places the three unordered target-group items at positions 4 to 6. Only two of them fall inside the top 5, so the prediction receives item-level credit of two thirds instead of a full SID-level hit."></div>
+      <figcaption><span class="note-key">Top-5 example &middot; target SID at rank 4 &middot; its collision group has 3 unordered items</span><span class="note-take">Only 2 of the 3 items fall inside the top 5, so the SID-level hit earns item-level credit 2/3.</span></figcaption>
+    </figure>
+    <p>CCE replaces each generated SID with its collision group, so the ranked SIDs become a ranked list of items. If the target SID is at rank $r$ and its group has $g$ items, the group occupies positions $p$ to $p+g-1$, after the items of the groups ranked above it, and $m$ of them fall inside the top $K$. The target could be any of the $g$ items, so CCE gives it credit $m/g$:</p>
+    <div class="eq">\[ \begin{gathered} \text{ItemHit@}K = \frac{m}{g} \\ \text{ItemNDCG@}K = \frac{1}{g}\sum_{e=1}^{m}\frac{1}{\log_2(p+e)} \end{gathered} \]</div>
+    <p>In the figure, $K=5$, $r=4$, $g=3$, and $m=2$.<span class="screen-only"> Try other cases below.</span></p>
+    <div class="demo" id="cce-demo">
+      <div class="demo-head">
+        <h4><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><use href="#icon-sitemap"/></svg> Try it: SID hit vs. item hit</h4>
+        <div class="demo-presets">
+          <button type="button" data-preset="paper">Paper&rsquo;s example: partial credit</button>
+          <button type="button" data-preset="nocoll">No collision: metrics agree</button>
+          <button type="button" data-preset="samehit">Same hit, lower NDCG</button>
+          <button type="button" data-preset="pushed">SID hit, zero item credit</button>
+        </div>
+      </div>
+      <div class="cce-controls">
+        <div>
+          <div class="cce-control-head"><label for="cce-k">Top-$K$ cutoff</label><output id="cce-k-out" for="cce-k" aria-hidden="true"></output></div>
+          <input type="range" id="cce-k" min="1" max="10" value="5" aria-label="Top-K cutoff">
+        </div>
+        <div>
+          <div class="cce-control-head"><label for="cce-r">Rank $r$ of the target SID</label><output id="cce-r-out" for="cce-r" aria-hidden="true"></output></div>
+          <input type="range" id="cce-r" min="1" max="10" value="4">
+        </div>
+        <div>
+          <div class="cce-control-head"><label for="cce-g">Target group size $g$</label><output id="cce-g-out" for="cce-g" aria-hidden="true"></output></div>
+          <input type="range" id="cce-g" min="1" max="6" value="3">
+        </div>
+        <div>
+          <div class="cce-control-head"><label for="cce-a">Extra items from collisions ranked above</label><output id="cce-a-out" for="cce-a" aria-hidden="true"></output></div>
+          <input type="range" id="cce-a" min="0" max="6" value="0">
+          <span class="cce-hint" id="cce-a-hint" hidden>Needs rank $r &gt; 1$: no SID ranks above the first.</span>
+        </div>
+      </div>
+      <div class="cce-rows" aria-hidden="true">
+        <div class="cce-track">
+          <svg class="cce-links"></svg>
+          <div class="cce-row sids"><span class="cce-row-label">Top-$K$ generated SIDs</span><div class="cce-cells" id="cce-cells-sid"></div></div>
+          <div class="cce-row items"><span class="cce-row-label">Expanded item ranking</span><div class="cce-cells" id="cce-cells-item"></div></div>
+        </div>
+      </div>
+      <div class="cce-legend" aria-hidden="true">
+        <span><span class="cce-swatch sid"></span>target SID $\mathbf{s}_{t+1}$</span>
+        <span><span class="cce-swatch item"></span>target group $\mathcal{C}(\mathbf{s}_{t+1})$ (unordered)</span>
+        <span><span class="cce-swatch other"></span>other items</span>
+        <span><span class="cce-swatch cut"></span>top-$K$ cutoff</span>
+      </div>
+      <div class="demo-scores">
+        <div class="score sid"><span class="score-label">Hit@$K$ <span class="nowrap">(SID-level)</span></span><span class="score-val" id="cce-hit"></span></div>
+        <div class="score item"><span class="score-label">ItemHit@$K$ (CCE)</span><span class="score-val" id="cce-item-hit"></span></div>
+        <div class="score sid"><span class="score-label">NDCG@$K$</span><span class="score-val" id="cce-ndcg"></span></div>
+        <div class="score item"><span class="score-label">ItemNDCG@$K$</span><span class="score-val" id="cce-item-ndcg"></span></div>
+      </div>
+      <p class="demo-explain" id="cce-explain"></p>
+      <p class="visually-hidden" role="status" id="cce-status"></p>
+    </div>
+
+    <h3 id="zcr">2. ZCR: remove collisions at minimum cost</h3>
+    <p>ZCR keeps each item&rsquo;s first $L-1$ codes and reassigns only the last one. Collisions can then only occur within a prefix group $\mathcal{P}(\mathbf{p})$, the items sharing prefix $\mathbf{p}$, so each group is solved on its own. Here $\rho_{\mathbf{p}}$ is the number of items that must be reassigned, and $D[i,c]$ is the cost of giving item $i$ last-level code $c$:</p>
+    <div class="eq">\[ \begin{gathered} \rho_{\mathbf{p}} = |\mathcal{P}(\mathbf{p})| - |\{s_i^{(L)} : i \in \mathcal{P}(\mathbf{p})\}| \\ D[i,c] = \|\mathbf{r}_i^{(L-1)} - \mathbf{e}_c^{(L)}\|^2 \end{gathered} \]</div>
+    <p>ZCR then reassigns exactly $\rho_{\mathbf{p}}$ items so that no two items share a code, at the lowest total cost:</p>
+    <div class="eq">\[ \begin{aligned} &\min_{\{\hat{s}_i^{(L)}\}} \sum_{i \in \mathcal{P}(\mathbf{p})} \bigl(D[i,\hat{s}_i^{(L)}] - D[i,s_i^{(L)}]\bigr) \\ &\ \text{s.t.}\ \ |\{i : \hat{s}_i^{(L)} \ne s_i^{(L)}\}| = \rho_{\mathbf{p}} \\ &\ \phantom{\text{s.t.}}\ \ \hat{s}_i^{(L)} \ne \hat{s}_j^{(L)} \text{ for } i \ne j \end{aligned} \]</div>
+    <p>The Hungarian algorithm solves each group exactly. The result is collision-free whenever every prefix group fits in the codebook ($V = 256$ codes per level), which holds on all four datasets.</p>
+
+    <details class="more" id="algorithm">
+      <summary>Show Algorithm 1 (pseudocode)</summary>
+      <div class="algorithm-wrap">
+        <pre id="zcr-algorithm" hidden>
+\begin{algorithm}
+\caption{Zero-Collision Reassignment}
+\begin{algorithmic}
+\REQUIRE Native SID assignment $\{\mathbf{s}_i\}_{i \in \mathcal{I}}$; last-level residuals $\{\mathbf{r}_i^{(L-1)}\}_{i \in \mathcal{I}}$; last-level codebook $\{\mathbf{e}_c^{(L)}\}_{c=1}^{V}$
+\ENSURE Reassigned SIDs $\{\hat{\mathbf{s}}_i\}_{i \in \mathcal{I}}$; collision-free if $\max_{\mathbf{p}} |\mathcal{P}(\mathbf{p})| \le V$
+\STATE Initialize $\hat{\mathbf{s}}_i \gets \mathbf{s}_i$ for all $i \in \mathcal{I}$
+\STATE Compute $D[i, c] \gets \|\mathbf{r}_i^{(L-1)} - \mathbf{e}_c^{(L)}\|^2$ for all $i \in \mathcal{I}$, $c \in \{1,\ldots,V\}$
+\STATE Partition items by native $(L-1)$-prefix: $\mathcal{P}(\mathbf{p}) \gets \{i : \mathbf{s}_i^{1:L-1} = \mathbf{p}\}$
+\FOR{each prefix group $\mathcal{P}(\mathbf{p})$}
+  \STATE $\rho_{\mathbf{p}} \gets |\mathcal{P}(\mathbf{p})| - |\{s_i^{(L)} : i \in \mathcal{P}(\mathbf{p})\}|$
+  \IF{$\rho_{\mathbf{p}} = 0$ \textbf{or} $|\mathcal{P}(\mathbf{p})| \gt V$}
+    \STATE \textbf{continue}
+  \ENDIF
+  \STATE Obtain $\{\hat{s}_i^{(L)}\}_{i \in \mathcal{P}(\mathbf{p})}$ by solving the problem above on $\mathcal{P}(\mathbf{p})$
+\ENDFOR
+\RETURN $\{\hat{\mathbf{s}}_i\}_{i \in \mathcal{I}}$
+\end{algorithmic}
+\end{algorithm}
+</pre>
+        <noscript><p>Turn on JavaScript to see the pseudocode.</p></noscript>
+      </div>
+    </details>
+
+    <div class="demo" id="zcr-demo">
+      <div class="demo-head">
+        <h4><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-hand-pointer"/></svg> Try it: which item should be reassigned?</h4>
+        <div class="demo-presets">
+          <button type="button" data-preset="paper">Paper&rsquo;s example: ZCR saves 33%</button>
+          <button type="button" data-preset="three">Three items, one code: ZCR saves 50%</button>
+          <button type="button" data-preset="same">Greedy matches ZCR: no saving</button>
+        </div>
+      </div>
+      <p class="zcr-sub">Drag an item (dot), or select it and then click where it should go or use the arrow keys. Each item is natively assigned its nearest code; items on the same code collide. Both methods reassign the same number of items but differ in which items they reassign and to which codes. Greedy, the rule used in MQL4GRec<sup><a href="#ref1">[1]</a></sup>, retains the item nearest to each shared code and reassigns the others to their nearest unused codes; ZCR selects the assignment that minimizes the total cost increase <span class="nowrap">$\sum \Delta D$</span> over the prefix group. Costs are squared distances in the drawing, scaled so that the first preset, the paper&rsquo;s case study (RK-Means on Beauty), reproduces its <span class="nowrap">$\Delta D = 20.65$ vs. $13.76$</span>.</p>
+      <div class="zcr-panels">
+        <figure class="zcr-panel native">
+          <figcaption><span>(a) Native collision</span><strong id="zcr-head-native"></strong></figcaption>
+          <svg class="zcr-svg" viewBox="0 0 320 240" data-method="native" role="application" aria-roledescription="drawing" aria-label="Native assignment, each item on its nearest code. Select an item and move it with the arrow keys."></svg>
+        </figure>
+        <figure class="zcr-panel greedy">
+          <figcaption><span id="zcr-title-greedy">(b) Greedy: winner keeps the code</span><strong id="zcr-head-greedy"></strong></figcaption>
+          <svg class="zcr-svg" viewBox="0 0 320 240" data-method="greedy" role="img" aria-label="Greedy reassignment of the colliding items"></svg>
+        </figure>
+        <figure class="zcr-panel zcr">
+          <figcaption><span>(c) ZCR: minimum total cost</span><strong id="zcr-head-zcr"></strong></figcaption>
+          <svg class="zcr-svg" viewBox="0 0 320 240" data-method="zcr" role="img" aria-label="ZCR minimum-cost reassignment of the colliding items"></svg>
+        </figure>
+      </div>
+      <div class="demo-scores">
+        <div class="score"><span class="score-label">Items to reassign, $\rho_{\mathbf{p}}$</span><span class="score-val" id="zcr-rho"></span></div>
+        <div class="score greedy"><span class="score-label">$\sum \Delta D$, greedy</span><span class="score-val" id="zcr-cost-greedy"></span></div>
+        <div class="score zcr"><span class="score-label">$\sum \Delta D$, ZCR</span><span class="score-val" id="zcr-cost-zcr"></span></div>
+        <div class="score zcr"><span class="score-label">ZCR saves</span><span class="score-val" id="zcr-saving"></span></div>
+      </div>
+      <p class="demo-explain" id="zcr-explain"></p>
+      <p class="visually-hidden" role="status" id="zcr-status"></p>
+    </div>
+  </section>
+
+  <section id="results">
+    <h2>Results</h2>
+    <h3>RQ1&ndash;2: Up to 103% inflation, enough to flip tokenizer rankings</h3>
+    <div class="table-wrap" id="inflation">
+      <table class="results">
+        <caption>Collision-Induced Metric Inflation</caption>
+        <thead>
+          <tr><th scope="col">Dataset</th><th scope="col">Tokenizer</th><th scope="col">Coll. (%)</th><th scope="col">H@10</th><th scope="col">IH@10</th><th scope="col">Infl. (%)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group-start"><th scope="rowgroup" rowspan="4" class="ds">Scientific</th><th scope="row" class="tok">RK-Means</th><td class="num on-dark" style="background:#be4130">30.52</td><td class="num"><strong>0.1330<span class="visually-hidden"> (best)</span></strong></td><td class="num">0.0654</td><td class="num on-dark" style="background:#be4130">103.36</td></tr>
+          <tr><th scope="row" class="tok">RQ-VAE</th><td class="num" style="background:#d47d70">20.42</td><td class="num">0.1147</td><td class="num">0.0665</td><td class="num" style="background:#d1776a">72.48</td></tr>
+          <tr><th scope="row" class="tok">LETTER<sup><a href="#ref2">[2]</a></sup></th><td class="num" style="background:#fcf0ea">1.24</td><td class="num">0.0804</td><td class="num"><strong>0.0767<span class="visually-hidden"> (best)</span></strong></td><td class="num" style="background:#fcefe9">4.82</td></tr>
+          <tr><th scope="row" class="tok">QuaSID<sup><a href="#ref3">[3]</a></sup></th><td class="num" style="background:#f3d7d0">5.41</td><td class="num">0.0768</td><td class="num">0.0749</td><td class="num" style="background:#fdf3ed">2.54</td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="4" class="ds">Cell</th><th scope="row" class="tok">RK-Means</th><td class="num on-dark" style="background:#c24d3d">28.52</td><td class="num"><strong>0.0830<span class="visually-hidden"> (best)</span></strong></td><td class="num">0.0524</td><td class="num" style="background:#da9084">58.40</td></tr>
+          <tr><th scope="row" class="tok">RQ-VAE</th><td class="num" style="background:#e1a399">14.04</td><td class="num">0.0702</td><td class="num">0.0574</td><td class="num" style="background:#f1d0c8">22.30</td></tr>
+          <tr><th scope="row" class="tok">LETTER</th><td class="num" style="background:#f8e3dc">3.39</td><td class="num">0.0673</td><td class="num">0.0628</td><td class="num" style="background:#faeae5">7.17</td></tr>
+          <tr><th scope="row" class="tok">QuaSID</th><td class="num" style="background:#f8e4dd">3.25</td><td class="num">0.0684</td><td class="num"><strong>0.0656<span class="visually-hidden"> (best)</span></strong></td><td class="num" style="background:#fcefea">4.27</td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="4" class="ds">Beauty</th><th scope="row" class="tok">RK-Means</th><td class="num" style="background:#d17669">21.58</td><td class="num"><strong>0.0818<span class="visually-hidden"> (best)</span></strong></td><td class="num">0.0547</td><td class="num" style="background:#e0a095">49.54</td></tr>
+          <tr><th scope="row" class="tok">RQ-VAE</th><td class="num" style="background:#edc4bc">8.52</td><td class="num">0.0693</td><td class="num">0.0576</td><td class="num" style="background:#f2d3cc">20.31</td></tr>
+          <tr><th scope="row" class="tok">LETTER</th><td class="num" style="background:#fdf1eb">1.07</td><td class="num">0.0664</td><td class="num">0.0610</td><td class="num" style="background:#f9e7e1">8.85</td></tr>
+          <tr><th scope="row" class="tok">QuaSID</th><td class="num" style="background:#fef3ee">0.59</td><td class="num">0.0663</td><td class="num"><strong>0.0644<span class="visually-hidden"> (best)</span></strong></td><td class="num" style="background:#fdf2ec">2.95</td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="4" class="ds">Yelp</th><th scope="row" class="tok">RK-Means</th><td class="num" style="background:#dd998e">15.73</td><td class="num">0.0415</td><td class="num">0.0313</td><td class="num" style="background:#ebbeb5">32.59</td></tr>
+          <tr><th scope="row" class="tok">RQ-VAE</th><td class="num" style="background:#ecc1b8">9.05</td><td class="num">0.0393</td><td class="num">0.0340</td><td class="num" style="background:#f5dcd5">15.59</td></tr>
+          <tr><th scope="row" class="tok">LETTER</th><td class="num" style="background:#edc4bb">8.59</td><td class="num"><strong>0.0457<span class="visually-hidden"> (best)</span></strong></td><td class="num"><strong>0.0405<span class="visually-hidden"> (best)</span></strong></td><td class="num" style="background:#f7e0da">12.84</td></tr>
+          <tr><th scope="row" class="tok">QuaSID</th><td class="num" style="background:#f2d2ca">6.23</td><td class="num">0.0400</td><td class="num">0.0369</td><td class="num" style="background:#fae8e2">8.40</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note"><span class="note-key"><b>Coll.</b>: collision rate &middot; <b>H@10</b>: SID-level Hit@10 &middot; <b>IH@10</b>: item-level ItemHit@10 (CCE) &middot; <b>Infl.</b>: H@10&thinsp;/&thinsp;IH@10 &minus; 1 &middot; <b>Bold</b>: best per dataset</span><span class="note-take">Inflation grows with the collision rate, and RK-Means ranks first by Hit@10 but last by ItemHit@10 on Scientific, Cell, and Beauty.</span></p>
+
+    <h3>RQ3: ZCR removes collisions and improves all tokenizers</h3>
+    <div class="metric-tabs" role="group" aria-label="Metric" hidden>
+      <button type="button" data-metric="ItemHit@5" aria-pressed="false">ItemHit@5</button>
+      <button type="button" data-metric="ItemHit@10" aria-pressed="false">ItemHit@10</button>
+      <button type="button" data-metric="ItemNDCG@5" aria-pressed="false">ItemNDCG@5</button>
+      <button type="button" data-metric="ItemNDCG@10" aria-pressed="true">ItemNDCG@10</button>
+    </div>
+    <div class="table-wrap" id="performance">
+      <table class="results">
+        <caption>Native vs. +ZCR (<span id="metric-name">ItemNDCG@10</span>)</caption>
+        <thead>
+          <tr><th scope="col">Tokenizer</th><th scope="col">Variant</th><th scope="col">Scientific</th><th scope="col">Cell</th><th scope="col">Beauty</th><th scope="col">Yelp</th></tr>
+        </thead>
+        <tbody data-metric="ItemHit@5" hidden>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RK-Means</th><th scope="row" class="variant">native</th><td class="num">0.0421</td><td class="num">0.0383</td><td class="num">0.0335</td><td class="num">0.0191</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#86c1b6">0.0579<span class="gain">&uarr;37.4%</span></td><td class="num" style="background:#8ec5bb">0.0516<span class="gain">&uarr;34.6%</span></td><td class="num" style="background:#b6d9d2">0.0403<span class="gain">&uarr;20.5%</span></td><td class="num" style="background:#c9e3de">0.0217<span class="gain">&uarr;13.7%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RQ-VAE</th><th scope="row" class="variant">native</th><td class="num">0.0468</td><td class="num">0.0446</td><td class="num">0.0365</td><td class="num">0.0215</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#a9d3cb">0.0585<span class="gain">&uarr;25.0%</span></td><td class="num" style="background:#cfe6e1">0.0497<span class="gain">&uarr;11.6%</span></td><td class="num" style="background:#e0efec">0.0386<span class="gain">&uarr;5.6%</span></td><td class="num" style="background:#dcede9">0.0230<span class="gain">&uarr;7.0%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">LETTER</th><th scope="row" class="variant">native</th><td class="num">0.0524</td><td class="num">0.0474</td><td class="num">0.0372</td><td class="num">0.0240</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#d6eae6">0.0571<span class="gain">&uarr;9.0%</span></td><td class="num" style="background:#e3f0ed">0.0496<span class="gain">&uarr;4.6%</span></td><td class="num" style="background:#e3f0ed">0.0389<span class="gain">&uarr;4.5%</span></td><td class="num" style="background:#d5e9e5">0.0263<span class="gain">&uarr;9.5%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">QuaSID</th><th scope="row" class="variant">native</th><td class="num">0.0544</td><td class="num">0.0490</td><td class="num">0.0392</td><td class="num">0.0221</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#e4f1ee">0.0567<span class="gain">&uarr;4.1%</span></td><td class="num" style="background:#ecf5f3">0.0496<span class="gain">&uarr;1.4%</span></td><td class="num" style="background:#e9f3f1">0.0402<span class="gain">&uarr;2.5%</span></td><td class="num" style="background:#d8ebe6">0.0240<span class="gain">&uarr;8.6%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" class="tok">MQL4GRec<sup><a href="#ref1">[1]</a></sup></th><th scope="row" class="variant">built-in</th><td class="num">0.0426</td><td class="num">0.0453</td><td class="num">0.0361</td><td class="num">0.0219</td></tr>
+        </tbody>
+        <tbody data-metric="ItemHit@10" hidden>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RK-Means</th><th scope="row" class="variant">native</th><td class="num">0.0654</td><td class="num">0.0524</td><td class="num">0.0547</td><td class="num">0.0313</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#abd4cc">0.0812<span class="gain">&uarr;24.1%</span></td><td class="num" style="background:#94c8be">0.0694<span class="gain">&uarr;32.4%</span></td><td class="num" style="background:#b4d9d1">0.0662<span class="gain">&uarr;21.1%</span></td><td class="num" style="background:#d0e7e2">0.0347<span class="gain">&uarr;11.1%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RQ-VAE</th><th scope="row" class="variant">native</th><td class="num">0.0665</td><td class="num">0.0574</td><td class="num">0.0576</td><td class="num">0.0340</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#b6dad3">0.0800<span class="gain">&uarr;20.4%</span></td><td class="num" style="background:#c7e2dd">0.0657<span class="gain">&uarr;14.4%</span></td><td class="num" style="background:#e0efec">0.0608<span class="gain">&uarr;5.6%</span></td><td class="num" style="background:#dfeeeb">0.0361<span class="gain">&uarr;6.0%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">LETTER</th><th scope="row" class="variant">native</th><td class="num">0.0767</td><td class="num">0.0628</td><td class="num">0.0610</td><td class="num">0.0405</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#e7f3f0">0.0791<span class="gain">&uarr;3.1%</span></td><td class="num" style="background:#e2f0ed">0.0660<span class="gain">&uarr;5.0%</span></td><td class="num" style="background:#e9f3f1">0.0625<span class="gain">&uarr;2.5%</span></td><td class="num" style="background:#d6eae6">0.0442<span class="gain">&uarr;9.0%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">QuaSID</th><th scope="row" class="variant">native</th><td class="num">0.0749</td><td class="num">0.0656</td><td class="num">0.0644</td><td class="num">0.0369</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#e1efec">0.0789<span class="gain">&uarr;5.3%</span></td><td class="num" style="background:#edf6f3">0.0663<span class="gain">&uarr;1.0%</span></td><td class="num" style="background:#eff7f5">0.0645<span class="gain">&uarr;0.2%</span></td><td class="num" style="background:#e7f2f0">0.0381<span class="gain">&uarr;3.2%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" class="tok">MQL4GRec<sup><a href="#ref1">[1]</a></sup></th><th scope="row" class="variant">built-in</th><td class="num">0.0606</td><td class="num">0.0596</td><td class="num">0.0570</td><td class="num">0.0353</td></tr>
+        </tbody>
+        <tbody data-metric="ItemNDCG@5" hidden>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RK-Means</th><th scope="row" class="variant">native</th><td class="num">0.0282</td><td class="num">0.0277</td><td class="num">0.0213</td><td class="num">0.0123</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#70b6a9">0.0429<span class="gain">&uarr;52.0%</span></td><td class="num" style="background:#72b7aa">0.0400<span class="gain">&uarr;44.4%</span></td><td class="num" style="background:#b8dbd4">0.0255<span class="gain">&uarr;19.7%</span></td><td class="num" style="background:#c7e2dd">0.0141<span class="gain">&uarr;14.5%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RQ-VAE</th><th scope="row" class="variant">native</th><td class="num">0.0315</td><td class="num">0.0336</td><td class="num">0.0239</td><td class="num">0.0141</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#7cbcb0">0.0445<span class="gain">&uarr;40.9%</span></td><td class="num" style="background:#c2e0da">0.0391<span class="gain">&uarr;16.2%</span></td><td class="num" style="background:#e0efeb">0.0252<span class="gain">&uarr;5.7%</span></td><td class="num" style="background:#e1efec">0.0148<span class="gain">&uarr;5.4%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">LETTER</th><th scope="row" class="variant">native</th><td class="num">0.0361</td><td class="num">0.0355</td><td class="num">0.0239</td><td class="num">0.0155</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#afd6ce">0.0443<span class="gain">&uarr;22.9%</span></td><td class="num" style="background:#d6eae6">0.0388<span class="gain">&uarr;9.1%</span></td><td class="num" style="background:#dcede9">0.0256<span class="gain">&uarr;7.1%</span></td><td class="num" style="background:#d9ebe7">0.0168<span class="gain">&uarr;8.2%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">QuaSID</th><th scope="row" class="variant">native</th><td class="num">0.0391</td><td class="num">0.0367</td><td class="num">0.0254</td><td class="num">0.0142</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#cee6e1">0.0438<span class="gain">&uarr;12.1%</span></td><td class="num" style="background:#e0efec">0.0388<span class="gain">&uarr;5.5%</span></td><td class="num" style="background:#e5f2ef">0.0263<span class="gain">&uarr;3.7%</span></td><td class="num" style="background:#d9ebe7">0.0154<span class="gain">&uarr;8.2%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" class="tok">MQL4GRec<sup><a href="#ref1">[1]</a></sup></th><th scope="row" class="variant">built-in</th><td class="num">0.0324</td><td class="num">0.0359</td><td class="num">0.0235</td><td class="num">0.0141</td></tr>
+        </tbody>
+        <tbody data-metric="ItemNDCG@10">
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RK-Means</th><th scope="row" class="variant">native</th><td class="num">0.0357</td><td class="num">0.0322</td><td class="num">0.0281</td><td class="num">0.0163</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#7bbcb0">0.0504<span class="gain">&uarr;41.0%</span></td><td class="num" style="background:#79baae">0.0457<span class="gain">&uarr;41.9%</span></td><td class="num" style="background:#b6dad3">0.0338<span class="gain">&uarr;20.3%</span></td><td class="num" style="background:#cce5e0">0.0183<span class="gain">&uarr;12.7%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">RQ-VAE</th><th scope="row" class="variant">native</th><td class="num">0.0379</td><td class="num">0.0378</td><td class="num">0.0306</td><td class="num">0.0181</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#8bc4b9">0.0514<span class="gain">&uarr;35.6%</span></td><td class="num" style="background:#c0ded8">0.0442<span class="gain">&uarr;17.0%</span></td><td class="num" style="background:#e0efec">0.0324<span class="gain">&uarr;5.6%</span></td><td class="num" style="background:#e1efec">0.0190<span class="gain">&uarr;5.2%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">LETTER</th><th scope="row" class="variant">native</th><td class="num">0.0439</td><td class="num">0.0405</td><td class="num">0.0315</td><td class="num">0.0208</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#bfded8">0.0514<span class="gain">&uarr;17.1%</span></td><td class="num" style="background:#d7eae6">0.0440<span class="gain">&uarr;8.8%</span></td><td class="num" style="background:#e1efec">0.0331<span class="gain">&uarr;5.2%</span></td><td class="num" style="background:#d8ebe7">0.0225<span class="gain">&uarr;8.3%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" rowspan="2" class="tok">QuaSID</th><th scope="row" class="variant">native</th><td class="num">0.0457</td><td class="num">0.0421</td><td class="num">0.0334</td><td class="num">0.0189</td></tr>
+          <tr><th scope="row" class="variant">+ZCR</th><td class="num" style="background:#cfe6e2">0.0509<span class="gain">&uarr;11.5%</span></td><td class="num" style="background:#e2f0ed">0.0441<span class="gain">&uarr;4.8%</span></td><td class="num" style="background:#eaf4f2">0.0341<span class="gain">&uarr;2.0%</span></td><td class="num" style="background:#e1f0ec">0.0199<span class="gain">&uarr;5.1%</span></td></tr>
+          <tr class="group-start"><th scope="rowgroup" class="tok">MQL4GRec<sup><a href="#ref1">[1]</a></sup></th><th scope="row" class="variant">built-in</th><td class="num">0.0382</td><td class="num">0.0405</td><td class="num">0.0302</td><td class="num">0.0184</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note"><span class="note-key"><b>Arrow</b>: relative gain of +ZCR over the native tokenizer &middot; <b>built-in</b>: MQL4GRec is collision-free by design &middot; Mean of 3 seeds; per-cell std 0.0001&ndash;0.0032 (median 0.0011)</span><span class="note-take">Gains are largest where native collision rates are highest.</span></p>
+
+    <details class="more" id="cost">
+      <summary>ZCR reassigns at 8&ndash;19% lower cost than greedy</summary>
+      <div class="table-wrap">
+        <table class="results">
+          <caption>Reassignment Cost under the Zero-Collision Constraint</caption>
+          <thead>
+            <tr><th scope="col">Tokenizer</th><th scope="col">Dataset</th><th scope="col">Items reassigned</th><th scope="col">$\sum \Delta D$ greedy</th><th scope="col">$\sum \Delta D$ ZCR</th><th scope="col">Reduction</th></tr>
+          </thead>
+          <tbody>
+            <tr class="group-start"><th scope="rowgroup" rowspan="4" class="tok">RK-Means</th><th scope="row" class="ds plain">Scientific</th><td class="num">875</td><td class="num">38,864</td><td class="num"><strong>35,674</strong></td><td class="num drop">&darr;8.21%</td></tr>
+            <tr><th scope="row" class="ds plain">Cell</th><td class="num">8,519</td><td class="num">276,488</td><td class="num"><strong>252,486</strong></td><td class="num drop">&darr;8.68%</td></tr>
+            <tr><th scope="row" class="ds plain">Beauty</th><td class="num">1,574</td><td class="num">63,409</td><td class="num"><strong>55,678</strong></td><td class="num drop">&darr;12.19%</td></tr>
+            <tr><th scope="row" class="ds plain">Yelp</th><td class="num">2,029</td><td class="num">41,689</td><td class="num"><strong>38,074</strong></td><td class="num drop">&darr;8.67%</td></tr>
+            <tr class="group-start"><th scope="rowgroup" rowspan="4" class="tok">RQ-VAE</th><th scope="row" class="ds plain">Scientific</th><td class="num">535</td><td class="num">9.64</td><td class="num"><strong>8.39</strong></td><td class="num drop">&darr;12.95%</td></tr>
+            <tr><th scope="row" class="ds plain">Cell</th><td class="num">4,017</td><td class="num">324.64</td><td class="num"><strong>279.06</strong></td><td class="num drop">&darr;14.04%</td></tr>
+            <tr><th scope="row" class="ds plain">Beauty</th><td class="num">827</td><td class="num">71.39</td><td class="num"><strong>57.97</strong></td><td class="num drop">&darr;18.80%</td></tr>
+            <tr><th scope="row" class="ds plain">Yelp</th><td class="num">2,574</td><td class="num">46.45</td><td class="num"><strong>40.22</strong></td><td class="num drop">&darr;13.40%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note"><span class="note-key"><b>Greedy</b>: MQL4GRec&rsquo;s nearest-codeword rule &middot; <b>Reduction</b>: relative drop in $\sum \Delta D$ from greedy to ZCR &middot; MQL4GRec itself is omitted (already collision-free)</span><span class="note-take">Both methods reassign the same number of items; ZCR lowers the total cost increase $\sum \Delta D$ by choosing which items to reassign and to which codes.</span></p>
+    </details>
+
+    <h3 id="why">Where do collisions come from?</h3>
+    <figure class="wide">
+      <div class="fig-scroll" style="--mw:760px"><img src="static/img/collision_viz.svg" width="661" height="256" loading="lazy" alt="t-SNE plots for Cell and Yelp. In the Qwen3 text-embedding panels, items from each highlighted collision group overlap tightly; in the PPMI+SVD collaborative-embedding panels, the same items are spread apart. Light gray points belong to other collision groups."></div>
+      <figcaption><span class="note-key">t-SNE of Cell and Yelp items &middot; each color marks the items of one SID &middot; gray marks other collision groups</span><span class="note-take">Items that share one SID overlap in the text space (Qwen3) but spread out in the collaborative space (PPMI+SVD): semantic quantization cannot distinguish textually similar items that users interact with differently.</span></figcaption>
+    </figure>
+    <details class="more">
+      <summary>Does adding collaborative signals help?</summary>
+      <figure class="wide">
+        <div class="fig-scroll" style="--mw:560px"><img src="static/img/cf.svg" width="397" height="168" loading="lazy" alt="Grouped bar charts of ItemHit@10 (left) and ItemNDCG@10 (right) on Scientific, Cell, Beauty, and Yelp for RK-Means+ZCR, LETTER+ZCR, and RK-Means+ZCR+CF. The collaborative-fusion variant has the highest ItemHit@10 on every dataset, with the largest gain on Yelp."></div>
+        <figcaption><span class="note-key">ItemHit@10 and ItemNDCG@10 with zero collisions &middot; <b>+CF</b>: PPMI+SVD collaborative embeddings fused into the tokenizer input</span><span class="note-take">Yes: +CF gives the best ItemHit@10 on every dataset, +4.6% to +26.2% over LETTER+ZCR, and gains most on Yelp (+63.1% over RK-Means+ZCR), where item text is only a business name and categories.</span></figcaption>
+      </figure>
+    </details>
+
+    <details class="more" id="setup">
+      <summary>Experimental setup and dataset statistics</summary>
+      <div class="setup">
+        <ul>
+          <li><strong>Datasets:</strong> Amazon Scientific (Industrial and Scientific), Cell (Cell Phones and Accessories), and Beauty, plus Yelp; 5-core filtering and leave-one-out split. Item text: title, description, brand, and categories (Amazon); business name and categories (Yelp).</li>
+          <li><strong>Tokenizers:</strong> RK-Means<sup><a href="#ref4">[4]</a></sup>, RQ-VAE (TIGER<sup><a href="#ref5">[5]</a></sup>), LETTER<sup><a href="#ref2">[2]</a></sup>, QuaSID<sup><a href="#ref3">[3]</a></sup> (reproduced from the paper), and MQL4GRec<sup><a href="#ref1">[1]</a></sup> as a zero-collision reference. All use the same Qwen3-Embedding-8B text embeddings and SIDs of length $L=4$ over a codebook of size $V=256$.</li>
+          <li><strong>Generator:</strong> the same T5 model for every tokenizer, trained from scratch (4 encoder/decoder layers, $d_{\text{model}}=128$, 6 heads); beam width 20.</li>
+        </ul>
+        <div class="table-wrap">
+          <table class="results">
+            <caption>Dataset Statistics</caption>
+            <thead>
+              <tr><th scope="col">Dataset</th><th scope="col">#Users</th><th scope="col">#Items</th><th scope="col">#Inter.</th><th scope="col">Avg. Len.</th><th scope="col">Sparsity</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row" class="ds">Scientific</th><td class="num">8,317</td><td class="num">4,344</td><td class="num">58,492</td><td class="num">7.03</td><td class="num">99.84%</td></tr>
+              <tr><th scope="row" class="ds">Cell</th><td class="num">154,778</td><td class="num">47,593</td><td class="num">1,109,257</td><td class="num">7.17</td><td class="num">99.98%</td></tr>
+              <tr><th scope="row" class="ds">Beauty</th><td class="num">22,363</td><td class="num">12,101</td><td class="num">198,502</td><td class="num">8.88</td><td class="num">99.93%</td></tr>
+              <tr><th scope="row" class="ds">Yelp</th><td class="num">30,431</td><td class="num">20,033</td><td class="num">316,354</td><td class="num">10.40</td><td class="num">99.95%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="qa">
+    <h2>Q&amp;A</h2>
+    <div class="qa">
+      <details>
+        <summary>Why not just append an extra code (TIGER) or use greedy reassignment (MQL4GRec)?</summary>
+        <p>ZCR is a post-tokenizer step: it works on existing tokenizers without retraining them, at minimum reassignment cost. The alternatives change what is being compared: TIGER<sup><a href="#ref5">[5]</a></sup> appends a non-semantic code that makes every SID longer, and greedy reassignment (MQL4GRec<sup><a href="#ref1">[1]</a></sup>) costs more, with ZCR lowering the total reassignment cost by 8&ndash;19%. ZCR keeps the SID length, so each tokenizer is compared close to its native assignment.</p>
+      </details>
+      <details>
+        <summary>Why does CCE give uniform credit within a collision group?</summary>
+        <p>A generated SID identifies only its collision group, and SID generation alone cannot order the items inside it. CCE therefore gives the target credit $m/g$, the mean Hit@$K$ over its $g$ possible positions in the group. With one target per test case, this is a collision-corrected Recall@$K$, and it reduces to the standard Hit@$K$ and NDCG@$K$ when $g = 1$.</p>
+      </details>
+      <details>
+        <summary>Where do ZCR&rsquo;s gains come from?</summary>
+        <p>Both variants train the same generator and are scored with CCE. With native SIDs, a hit on a collision group receives only fractional item-level credit; ZCR makes matched target SIDs unique, so these hits receive full credit. This is why gains are largest for the tokenizers with the most native collisions, RK-Means and RQ-VAE.</p>
+      </details>
+      <details>
+        <summary>How do I apply CCE or ZCR to my own tokenizer?</summary>
+        <p>CCE needs only saved beam outputs and the item-to-SID table, so existing runs can be re-scored without retraining. ZCR needs the tokenizer&rsquo;s last-level residuals and codebook; it runs after quantization, in negligible time relative to tokenizer training in our experiments, and the generator is then retrained on the new SIDs. To compare tokenizers, use both: with CCE alone, each generator is still trained on native SIDs that contain collisions. Code and pre-built SID indexes are in the <a href="https://github.com/Nishikata97/CollisionGenRec">repository</a>.</p>
+      </details>
+      <details>
+        <summary>What are the limitations?</summary>
+        <ul>
+          <li>Items in one collision group receive uniform credit (see above); popularity- or context-aware credit could refine this.</li>
+          <li>ZCR&rsquo;s zero-collision guarantee needs every prefix group to fit in the last-level codebook, $\max_{\mathbf{p}} |\mathcal{P}(\mathbf{p})| \le V$. This held in all our experiments; when it fails, enlarging $V$ or adding multimodal item features is the most direct solution.</li>
+          <li>Experiments use public Amazon and Yelp data and one generator architecture, which keeps the tokenizer the only moving part; the size of the inflation and the ranking flips may differ on larger industrial datasets.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <section id="bibtex">
+    <h2>Citation</h2>
+    <div class="bibtex">
+      <button class="copy-btn" type="button" data-copy="bibtex-text"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><use href="#icon-copy"/></svg> Copy</button>
+      <span class="visually-hidden" role="status" id="copy-status"></span>
+      <pre id="bibtex-text">@inproceedings{zhang2026faithful,
+<span class="bib-field">  title     = {Faithful Evaluation of {Semantic-ID} Tokenizers for Generative Recommendation},</span>
+<span class="bib-field">  author    = {Zhang, Qian and Szymanski, Lech and Deng, Jeremiah D. and Zhang, Haibo},</span>
+<span class="bib-field">  booktitle = {Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)},</span>
+<span class="bib-field">  year      = {2026},</span>
+<span class="bib-field">  address   = {Rome, Italy},</span>
+<span class="bib-field">  publisher = {ACM},</span>
+<span class="bib-field">  doi       = {10.1145/3799682.3841124}</span>
+}</pre>
+    </div>
+    <div class="refs">
+      <h3 class="refs-title">References</h3>
+      <ol>
+        <li id="ref1">Zhai et al. Multimodal Quantitative Language for Generative Recommendation. ICLR 2025.</li>
+        <li id="ref2">Wang et al. Learnable Item Tokenization for Generative Recommendation. CIKM 2024.</li>
+        <li id="ref3">Hu et al. Stop Treating Collisions Equally: Qualification-Aware Semantic ID Learning for Recommendation at Industrial Scale. arXiv 2026.</li>
+        <li id="ref4">Luo et al. QARM: Quantitative Alignment Multi-Modal Recommendation at Kuaishou. CIKM 2025.</li>
+        <li id="ref5">Rajput et al. Recommender Systems with Generative Retrieval. NeurIPS 2023.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Questions? Contact Qian Zhang at <a class="email-link" data-user="qian.zhang" data-domain="postgrad.otago.ac.nz"></a><noscript>qian.zhang [at] postgrad.otago.ac.nz</noscript>.
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+<script defer src="static/js/main.js"></script>
+</body>
+</html>

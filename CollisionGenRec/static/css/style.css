@@ -1,0 +1,1046 @@
+/* Project page for "Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation".
+   Colors match the CIKM 2026 poster. Sections follow the page from top to bottom (a shared component sits
+   where it first appears); media queries are at the end. */
+
+/* ---------- tokens ---------- */
+/* Colors shared across components. A shade that only one component uses is set in that component's rules. */
+:root {
+  --navy: #001f5b;
+  --ink: #1d2433;
+  --muted: #5b6474;
+  --line: #e2e6ed;
+  --panel: #f5f7fa;
+  --bg: #ffffff;
+  --on-fill: #ffffff;
+  --item: #e46c0a;
+  --item-tint: #fdeadb;
+  --sid: #4f86c6;
+  /* Darker shades of --sid and --item for text and for white text on them (WCAG AA 4.5:1). */
+  --link: #2f6aad;
+  --sid-strong: #3b72b3;
+  --item-strong: #b95807;
+  --red: #b54c45;
+  --green: #117733;
+  --greedy: #cc3311;
+  --cell-border: #c9d0db;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: Raleway, "Source Sans 3", sans-serif;
+  --maxw: 1000px;
+}
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+
+/* Anchored targets and focused controls clear the sticky bar. */
+html { scroll-padding-top: 64px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 18px/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  color: var(--navy);
+  line-height: 1.25;
+}
+
+a { color: var(--link); }
+a:hover { color: var(--navy); }
+
+p { margin: 0 0 16px; }
+
+[hidden] { display: none !important; }
+.nowrap { white-space: nowrap; }
+
+/* Inline SVG icons (symbols defined once at the top of the page), sized and aligned like icon-font glyphs. */
+.icon {
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+/* Screen-reader-only text. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Skip link: shown when focused. */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: var(--on-fill);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; color: var(--on-fill); }
+
+/* ---------- sticky section navigation ---------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.site-nav::-webkit-scrollbar { display: none; }
+/* Phones: a fade at the edge where more links are hidden (classes set by initScrollCues). */
+.site-nav::before,
+.site-nav::after {
+  content: "";
+  position: sticky;
+  flex: none;
+  width: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.site-nav::before {
+  left: -12px;
+  margin: -8px -28px -8px -12px;
+  background: linear-gradient(to left, transparent, var(--bg) 70%);
+}
+.site-nav::after {
+  right: -12px;
+  margin: -8px -12px -8px -28px;
+  background: linear-gradient(to right, transparent, var(--bg) 70%);
+}
+.site-nav.fade-l::before,
+.site-nav.fade-r::after { opacity: 1; }
+.site-nav a {
+  flex: none;
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  font: 600 15px/1.4 var(--font-body);
+  text-decoration: none;
+}
+.site-nav a:hover:not([aria-current]) { color: var(--navy); background: var(--panel); }
+.site-nav a[aria-current="location"] { color: var(--on-fill); background: var(--navy); }
+
+/* ---------- header ---------- */
+.hero {
+  text-align: center;
+  padding: 24px 16px 0;
+}
+/* Venue: the CIKM 2026 logo (the poster's), trimmed to its content. */
+.venue { margin: 0 0 12px; line-height: 0; }
+.venue img { width: 150px; height: auto; }
+.venue a { display: inline-block; border-radius: 8px; }
+.venue a:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+.title {
+  max-width: 900px;
+  margin: 0 auto 10px;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  text-wrap: balance;
+}
+.tagline {
+  margin: 0 0 14px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  font-weight: 600;
+  text-wrap: balance;
+}
+.tagline .item { color: var(--item-strong); }
+.tagline .sid { color: var(--sid-strong); }
+.authors {
+  margin: 0;
+  font-size: 20px;
+}
+.authors a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.authors a:hover { color: var(--link); border-color: var(--link); }
+.authors .sep { margin: 0 6px; color: var(--muted); }
+
+/* Institution logos. */
+.affil-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 40px;
+  margin: 10px 0 18px;
+}
+.affil-logos .aff {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 3px;
+  color: var(--muted);
+}
+.affil-logos sup { font-size: 13px; line-height: 1; }
+.affil-logos img { height: 52px; width: auto; }
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--on-fill);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.btn:hover { background: var(--navy); color: var(--on-fill); }
+
+/* ---------- layout ---------- */
+main {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+section {
+  padding: 44px 0 8px;
+}
+section + section { border-top: 1px solid var(--line); }
+h2 {
+  margin: 0 0 20px;
+  font-size: clamp(24px, 3vw, 30px);
+  text-align: center;
+}
+h3 {
+  margin: 32px 0 12px;
+  font-size: 22px;
+}
+.accent-red { color: var(--red); font-weight: 700; }
+
+/* ---------- TL;DR, hero figure, and key findings ---------- */
+.tldr {
+  margin: 20px auto 0;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--panel);
+  font-size: 19px;
+}
+.tldr strong:first-child { color: var(--navy); }
+.tldr-short { display: none; }
+
+.hero-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  margin-top: 20px;
+}
+.hero-row .hero-figure { margin: 0; }
+.hero-row .hero-figure img { width: 100%; }
+
+.finding-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.finding {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.finding:hover {
+  border-color: var(--tone);
+  box-shadow: 0 6px 18px rgba(0, 31, 91, 0.08);
+  color: var(--ink);
+}
+.finding.inflation { --tone: var(--red); --tint: #f7e4e2; }
+.finding.flip { --tone: var(--item); --tint: var(--item-tint); }
+.finding.improve { --tone: var(--green); --tint: #e1f0e6; }
+.finding-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--tone);
+}
+.finding-num {
+  display: block;
+  color: var(--tone);
+  font: 800 28px/1.15 var(--font-head);
+  font-variant-numeric: lining-nums tabular-nums; /* Raleway's default figures are old-style */
+}
+.finding-text {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+/* Two calls to action: CCE (item orange) and ZCR (fix green). */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  justify-content: center;
+  margin: 22px 0 4px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: 1.5px solid var(--item);
+  border-radius: 999px;
+  background: #fff7f0;
+  color: #b3530a;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  text-wrap: balance;
+  transition: background 0.15s;
+}
+.cta:hover { background: var(--item-tint); color: #9a4608; }
+.cta.zcr { border-color: var(--green); background: #eef7f1; color: #0d5c28; }
+.cta.zcr:hover { background: #dcefe3; color: #0a4a20; }
+
+/* ---------- abstract ---------- */
+.abstract { text-align: justify; hyphens: auto; }
+/* Only the first lines show until "Read the full abstract" is pressed. */
+.abstract.collapsed {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent);
+  mask-image: linear-gradient(#000 55%, transparent);
+}
+
+/* ---------- pill buttons (read more, demo presets, metric tabs, copy) ---------- */
+.read-more,
+.demo-presets button,
+.metric-tabs button,
+.copy-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 600 14px/1.4 var(--font-body);
+  cursor: pointer;
+}
+.demo-presets button,
+.copy-btn { padding: 5px 12px; }
+.copy-btn { border-radius: 8px; }
+.read-more {
+  display: block;
+  margin: -6px auto 0;
+  color: var(--navy);
+}
+.read-more:hover,
+.demo-presets button:hover:not([aria-pressed="true"]),
+.metric-tabs button:hover:not([aria-pressed="true"]),
+.copy-btn:hover { border-color: var(--link); color: var(--link); }
+.demo-presets button[aria-pressed="true"],
+.metric-tabs button[aria-pressed="true"] { border-color: var(--navy); background: var(--navy); color: var(--on-fill); }
+
+/* ---------- problem section ---------- */
+.lead-in strong { color: var(--navy); }
+.lead-in + .rq { margin-top: -6px; }
+.rq { list-style: none; padding-left: 0; }
+.rq li { margin-bottom: 6px; }
+.rq li strong { display: inline-block; min-width: 3.2em; color: var(--navy); }
+.rq li a { margin-left: 4px; font-size: 0.92em; white-space: nowrap; }
+.rq li a::after { content: " \2192"; content: " \2192" / ""; }
+
+.method-list { padding-left: 22px; }
+.method-list li { margin-bottom: 6px; }
+
+/* ---------- figures ---------- */
+figure {
+  margin: 24px 0;
+  text-align: center;
+}
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+figcaption {
+  max-width: 820px;
+  margin: 10px auto 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+/* Small vector figures scale up to the text width. */
+figure.wide img { width: 100%; max-width: 880px; }
+
+/* Wide figures keep a readable minimum width (--mw) and scroll sideways when the screen is narrower.
+   initScrollCues marks scrolling boxes (.scrolls) and the edge with more content (.fade-l, .fade-r). */
+.fig-scroll { overflow-x: auto; }
+figure .fig-scroll img { min-width: var(--mw, 0); }
+figure.scrolls figcaption::before {
+  content: "Scroll sideways to see the whole figure. ";
+  font-style: italic;
+}
+:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-r {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+}
+:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-l {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
+}
+:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-l.fade-r {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
+}
+.scrolls[tabindex]:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+
+/* Two-tier notes under figures and tables: a compact key to the abbreviations, then the takeaway. */
+.note-key { display: block; font-size: 14px; }
+.note-key b { color: var(--ink); font-weight: 600; }
+.note-take { display: block; margin-top: 4px; color: var(--ink); font-size: 16px; text-wrap: balance; }
+.caption-center {
+  text-align: center;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ---------- collision cards and the Starbucks fun fact ---------- */
+.coll-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 8px 0 12px;
+}
+.coll-card {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.coll-card h3 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+.coll-row {
+  display: grid;
+  grid-template-columns: 5.5em 4.2em minmax(60px, 1fr) 6.2em;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+}
+.coll-rate {
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.coll-bar {
+  height: 14px;
+  border-radius: 3px;
+  background: #f3e3e1;
+  overflow: hidden;
+}
+.coll-bar span {
+  display: block;
+  height: 100%;
+  background: var(--red);
+}
+.coll-gmax {
+  color: var(--muted);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.funfact {
+  display: flex;
+  gap: 16px;
+  margin: 18px 0 8px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #f6efe8;
+}
+.funfact-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #00704a; /* coffee-shop green */
+  color: var(--on-fill);
+  font-size: 24px;
+}
+.funfact p { margin: 0; }
+.funfact .funfact-title {
+  margin-bottom: 4px;
+  font: 800 21px/1.3 var(--font-head);
+}
+
+/* ---------- equations and pseudocode ---------- */
+.eq {
+  margin: 14px 0;
+  overflow: auto hidden;
+}
+.eq .katex-display { margin: 0.3em 0; }
+/* Inline formulas do not break inside, e.g., "V = 256". main.js uses the same selector to glue them to the
+   text they touch (.math-glue), which does not break either. */
+main p .katex,
+main li .katex,
+.math-glue { white-space: nowrap; }
+.algorithm-wrap { overflow-x: auto; }
+
+/* Algorithm 1 is rendered by pseudocode.js. These are the rules this algorithm needs from its stylesheet
+   (pseudocode.js 2.4.1, MIT License, (c) 2020-2023 Saswat Padhi), adapted to this page and without its @import of
+   an older KaTeX stylesheet; the page loads KaTeX itself. */
+.ps-root {
+  font-family: "KaTeX_Main", "Times New Roman", Times, serif;
+  font-size: 16px;
+  text-align: left;
+}
+.ps-root .ps-algorithm { margin: 0.8em 0; border-top: 3px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.ps-root .ps-algorithm.with-caption > .ps-line:first-child { border-bottom: 2px solid var(--ink); }
+.ps-root .katex { font-size: 1em; }
+.ps-root .ps-line { margin: 0; line-height: 1.2; }
+.ps-root .ps-keyword { font-weight: 700; }
+.ps-root .ps-linenum {
+  display: inline-block;
+  position: relative;
+  width: 1.6em;
+  padding-right: 0.3em;
+  font-size: 0.8em;
+  line-height: 1em;
+  text-align: right;
+}
+.ps-root .ps-algorithmic.with-linenum .ps-line.ps-code { text-indent: -1.6em; }
+.ps-root .ps-algorithmic.with-linenum .ps-line.ps-code > span { text-indent: 0; }
+
+/* ---------- demos (shared by the CCE and ZCR demos) ---------- */
+.demo {
+  margin: 24px 0;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+.demo-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 14px;
+}
+.demo-head h4 { margin: 0; font-size: 19px; }
+.demo-head h4 .icon { margin-right: 6px; color: var(--sid); }
+.demo-presets { display: flex; flex-wrap: wrap; gap: 8px; }
+.demo-scores {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.score {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  text-align: center;
+}
+.score-label { display: block; color: var(--muted); font-size: 14px; }
+.score-val {
+  display: block;
+  font: 800 26px/1.3 var(--font-head);
+  font-variant-numeric: lining-nums tabular-nums; /* Raleway's default figures are old-style */
+}
+.score.sid .score-val { color: var(--sid); }
+.score.item .score-val { color: var(--item); }
+.score.greedy .score-val { color: var(--greedy); }
+.score.zcr .score-val { color: var(--green); }
+.demo-explain { margin: 14px 0 0; font-size: 16px; }
+
+/* ---------- CCE demo ---------- */
+.cce-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 28px;
+}
+.cce-control-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 16px;
+}
+.cce-controls output {
+  min-width: 1.5em;
+  color: var(--navy);
+  font-weight: 700;
+  text-align: right;
+}
+.cce-controls input[type="range"] {
+  width: 100%;
+  margin: 0 0 10px;
+  accent-color: var(--navy);
+}
+.cce-hint { display: block; margin: -6px 0 8px; color: var(--muted); font-size: 14px; }
+
+/* s_{t+1} (top row) is linked to its collision group (bottom row) by the lines in .cce-links.
+   The rows never wrap (a wrapped row would put the links across other cells); when they are wider than
+   the demo even at the smallest cell size, .cce-rows scrolls sideways. */
+.cce-rows { margin: 8px 0 4px; padding-bottom: 4px; overflow-x: auto; }
+.cce-track { position: relative; width: max-content; min-width: 100%; }
+.cce-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.cce-link { stroke: var(--sid-strong); stroke-width: 1.5; stroke-linecap: round; }
+.cce-row {
+  display: grid;
+  grid-template-columns: 10.5em minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.cce-row.sids { margin-bottom: 42px; } /* room for the links down to the item row */
+.cce-row-label { color: var(--muted); font-size: 15px; }
+
+/* Cells in the paper's notation: a pill with its rank above it.
+   --s is set by the script to shrink the cells (down to 0.7) so the rows fit; below that .cce-rows scrolls. */
+.cce-cells {
+  display: flex;
+  gap: calc(6px * var(--s, 1));
+}
+.cce-slot {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.cce-rank { color: var(--muted); font-size: 11px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.cce-cell {
+  display: grid;
+  place-items: center;
+  min-width: calc(40px * var(--s, 1));
+  height: calc(32px * var(--s, 1));
+  padding: 0 calc(8px * var(--s, 1));
+  border: 1.5px solid var(--cell-border);
+  border-radius: calc(9px * var(--s, 1));
+  background: var(--bg);
+  font-size: calc(16px * var(--s, 1));
+  font-variant-numeric: tabular-nums;
+}
+.cce-cell .katex { font-size: 1em; }
+.cce-cell.sid {
+  border-color: var(--sid-strong);
+  background: var(--sid-strong);
+  color: var(--on-fill);
+}
+.cce-cell.item {
+  border-color: var(--item-strong);
+  background: var(--item-strong);
+  color: var(--on-fill);
+}
+.cce-cell.out { color: var(--muted); border-style: dashed; }
+.cce-cell.sid.out { background: var(--bg); color: var(--sid-strong); }
+.cce-cell.item.out { background: var(--bg); color: var(--item-strong); }
+.cce-cutoff {
+  align-self: stretch;
+  margin: 12px 2px -2px;
+  border-left: 2.5px dashed var(--red);
+}
+.cce-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 6px 0 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.cce-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 3px;
+  vertical-align: -1px;
+}
+.cce-swatch.sid { background: var(--sid-strong); }
+.cce-swatch.item { background: var(--item-strong); }
+.cce-swatch.other { border: 1.5px solid var(--cell-border); background: var(--bg); }
+.cce-swatch.cut { width: 0; border-left: 2.5px dashed var(--red); border-radius: 0; }
+
+/* ---------- ZCR demo: native, greedy, and ZCR side by side ---------- */
+.zcr-sub { margin: 0 0 12px; color: var(--muted); font-size: 15.5px; }
+.zcr-panels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.zcr-panel {
+  margin: 0;
+  padding: 10px 10px 4px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  text-align: left;
+}
+.zcr-panel.greedy { border-color: #e8c7c3; }
+.zcr-panel.zcr { border-color: #bcdcc6; }
+/* Two-line captions (title, then value) so the three drawings line up. */
+.zcr-panel figcaption {
+  display: grid;
+  gap: 2px;
+  margin: 0 4px 2px;
+  color: var(--ink);
+  font-size: 15px;
+}
+.zcr-panel figcaption > span { font-weight: 700; }
+.zcr-panel figcaption strong { font-weight: 400; color: var(--muted); }
+.zcr-panel.greedy figcaption span,
+.zcr-panel.greedy figcaption strong { color: var(--greedy); }
+.zcr-panel.zcr figcaption span,
+.zcr-panel.zcr figcaption strong { color: var(--green); }
+.zcr-svg { display: block; width: 100%; }
+
+/* Drawing, in the notation of the paper's case-study figure: i_{14}, code_{206}, \Delta D. */
+.zcr-code polygon { fill: var(--bg); stroke: #111; stroke-width: 2; }
+.zcr-code text { fill: var(--ink); font-size: 13px; }
+.zcr-code.free polygon { stroke-dasharray: 4 3; }
+.zcr-home { stroke: #888; stroke-width: 1.8; stroke-dasharray: 5 4; }
+.zcr-move { stroke-width: 2.6; }
+.zcr-move.greedy { stroke: var(--greedy); }
+.zcr-move.zcr { stroke: var(--green); }
+.zcr-arrowhead.greedy { fill: var(--greedy); }
+.zcr-arrowhead.zcr { fill: var(--green); }
+.zcr-cost { font-size: 13px; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+.zcr-cost.greedy { fill: var(--greedy); }
+.zcr-cost.zcr { fill: var(--green); }
+.zcr-item {
+  fill: var(--item);
+  stroke: var(--bg);
+  stroke-width: 2.5;
+  cursor: grab;
+  touch-action: none;
+}
+.zcr-item:hover { stroke: var(--navy); }
+/* The selected item (focused by a click or by Tab); a dashed ring when focused from the keyboard. */
+.zcr-item:focus { outline: none; stroke: var(--navy); stroke-width: 4; }
+.zcr-item:focus-visible { stroke-dasharray: 3 2; }
+.zcr-item.dragging { cursor: grabbing; }
+.zcr-item-label { fill: var(--ink); font-size: 15px; pointer-events: none; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+.zcr-winner { font-family: var(--font-body); font-size: 11.5px; }
+.zcr-math { font-family: "KaTeX_Main", "Times New Roman", serif; }
+.zcr-it { font-family: "KaTeX_Math", "Times New Roman", serif; font-style: italic; }
+.zcr-subscript { font-size: 72%; }
+
+/* ---------- metric tabs and results tables ---------- */
+.metric-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 10px;
+}
+
+/* position: relative keeps absolutely positioned content (KaTeX's MathML, visually hidden notes) inside the
+   scroller; otherwise it escapes it and widens the page. */
+.table-wrap {
+  position: relative;
+  overflow-x: auto;
+  margin: 8px 0 4px;
+}
+table.results {
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+table.results caption {
+  padding-bottom: 8px;
+  color: var(--navy);
+  font: 700 18px/1.4 var(--font-head);
+  font-variant-numeric: lining-nums tabular-nums; /* Raleway's default figures are old-style */
+}
+table.results th,
+table.results td {
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+table.results thead th {
+  border-top: 2px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+}
+table.results tbody tr:last-child > * { border-bottom: 2px solid var(--ink); }
+table.results tr.group-start > * { border-top: 1px solid #b9c0cc; }
+table.results th.ds,
+table.results th.tok { text-align: left; }
+table.results th.variant,
+table.results th.plain { font-weight: 400; text-align: left; }
+table.results th.variant { color: var(--muted); }
+table.results td.num { text-align: right; }
+/* Heat-map cells: dark fills take white text. */
+table.results td.on-dark { color: var(--on-fill); }
+table.results td.drop { color: var(--green); font-weight: 700; }
+.gain {
+  margin-left: 3px;
+  color: #073b1b;
+  font-size: 13px;
+  vertical-align: -0.25em;
+}
+.table-note {
+  max-width: 820px;
+  margin: 8px auto 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- collapsible blocks and Q&A ---------- */
+details.more,
+.qa details {
+  margin: 12px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+}
+/* Summaries: a +/- marker, with wrapped lines hanging under the text. */
+details.more > summary,
+.qa summary {
+  padding: 12px 18px 12px calc(18px + 1.2em);
+  text-indent: -1.2em;
+  color: var(--navy);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+details.more > summary::-webkit-details-marker,
+.qa summary::-webkit-details-marker { display: none; }
+details.more > summary::before,
+.qa summary::before {
+  content: "+";
+  display: inline-block;
+  width: 1.2em;
+  color: var(--sid);
+  font-weight: 800;
+}
+details[open].more > summary::before,
+.qa details[open] summary::before { content: "\2212"; }
+details.more > :not(summary),
+.qa details > :not(summary) { margin-left: 18px; margin-right: 18px; }
+.qa details p,
+.qa details ul { margin-top: 0; }
+.qa details ul { padding-left: 22px; }
+.qa details li { margin-bottom: 6px; }
+
+.setup ul { padding-left: 22px; }
+.setup li { margin-bottom: 4px; }
+
+/* ---------- citation ---------- */
+.bibtex { position: relative; }
+.bibtex pre {
+  margin: 0;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: var(--panel);
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+/* BibTeX fields: a wrapped line hangs under the start of the value, not under the field name. */
+.bib-field { display: inline-block; width: 100%; padding-left: 14ch; text-indent: -14ch; vertical-align: top; }
+.bibtex .copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.refs {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 15px;
+}
+.refs ol { padding-left: 26px; }
+.refs .refs-title { margin: 0 0 16px; color: inherit; font: 700 15px/1.65 var(--font-body); }
+
+footer {
+  padding: 28px 16px 40px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 15px;
+  text-align: center;
+}
+
+/* ---------- responsive ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Narrow screens and touch screens (a larger Copy button): the button sits above the BibTeX text. */
+@media (max-width: 900px), (pointer: coarse) {
+  .bibtex pre { padding-top: 58px; }
+}
+
+/* Compact collision cards on phones and in two narrow columns (681-900px, see the 680px query below),
+   so G_max stays inside the card. */
+@media (max-width: 480px), (min-width: 681px) and (max-width: 900px) {
+  .coll-card { padding: 12px 14px; }
+  .coll-row {
+    grid-template-columns: 4.9em 3.9em minmax(24px, 1fr) 5.1em;
+    gap: 6px;
+    font-size: 15px;
+  }
+  .coll-gmax { font-size: 13px; }
+}
+
+@media (max-width: 860px) {
+  .hero-row { grid-template-columns: 1fr; }
+}
+
+/* ZCR panels on tablets: native on top, greedy and ZCR side by side below it (one column on phones). */
+@media (min-width: 601px) and (max-width: 860px) {
+  .zcr-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; }
+  .zcr-panel { width: 100%; }
+  .zcr-panel.native { grid-column: 1 / -1; max-width: 440px; }
+}
+
+@media (max-width: 760px) {
+  .site-nav { justify-content: flex-start; }
+}
+
+@media (max-width: 680px) {
+  .coll-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .cce-controls { grid-template-columns: 1fr; }
+  .cce-row { grid-template-columns: 1fr; gap: 4px; }
+  /* Put the item-row label under its cells so the links do not cross it. */
+  .cce-row.items .cce-row-label { order: 2; }
+  .demo-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Phones: fit the hero figure and finding cards on the first screen; one ZCR panel per row. */
+@media (max-width: 600px) {
+  .hero { padding: 14px 16px 0; }
+  .venue { margin-bottom: 8px; }
+  .venue img { width: 112px; }
+  .title { margin-bottom: 6px; font-size: 22px; }
+  .tagline { margin-bottom: 8px; font-size: 17px; }
+  .authors { font-size: 16px; line-height: 1.5; }
+  .affil-logos { gap: 8px 28px; margin: 6px 0 12px; }
+  .affil-logos img { height: 34px; }
+  .buttons { gap: 6px; }
+  .btn { gap: 6px; padding: 7px 10px; font-size: 14px; }
+  .tldr { margin-top: 12px; padding: 12px 14px; font-size: 16px; line-height: 1.5; }
+  .tldr-short { display: inline; }
+  .tldr-long { display: none; }
+  .hero-row { gap: 12px; margin-top: 12px; }
+  /* The TL;DR above says the same thing. */
+  .hero-row .hero-figure figcaption { display: none; }
+  /* Finding cards become one swipeable row. */
+  .finding-cards {
+    flex-direction: row;
+    gap: 10px;
+    margin: -4px -16px 0;
+    /* Room above and below so the focus ring of a card is not clipped by the scroller. */
+    padding: 4px 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px; /* snapped cards align with the page gutter */
+    scrollbar-width: none;
+  }
+  .finding-cards::-webkit-scrollbar { display: none; }
+  .finding { flex: 0 0 80%; padding: 10px 12px; scroll-snap-align: start; }
+  .finding-icon { width: 36px; height: 36px; font-size: 15px; }
+  .finding-num { font-size: 24px; }
+  .finding-text { font-size: 14px; }
+  .cta-row { flex-direction: column; }
+  .cta { justify-content: center; padding: 9px 14px; font-size: 15px; }
+  .funfact { padding: 14px; gap: 12px; }
+  .funfact-icon { width: 44px; height: 44px; font-size: 20px; }
+  .abstract.collapsed { -webkit-line-clamp: 5; line-clamp: 5; }
+  .zcr-panels { grid-template-columns: 1fr; justify-items: center; }
+  .zcr-panel { width: 100%; max-width: 440px; }
+  .bib-field { padding-left: 4ch; text-indent: -4ch; }
+}
+
+/* Small phones: tighter tables and demos. */
+@media (max-width: 480px) {
+  body { font-size: 17px; }
+  table.results { font-size: 13px; }
+  table.results th,
+  table.results td { padding: 4px; }
+  /* A left-aligned caption, no wider than the screen, stays in view when the table scrolls. */
+  table.results caption { max-width: calc(100vw - 32px); text-align: left; }
+  details.more table.results caption { max-width: calc(100vw - 72px); }
+  /* A little more width for the demo's cell rows. */
+  .demo { padding-left: 13px; padding-right: 13px; }
+  /* Four metric tabs in two rows of two. */
+  .metric-tabs { display: grid; grid-template-columns: repeat(2, max-content); }
+}
+
+/* Very small phones (360px and below): a little tighter still. */
+@media (max-width: 360px) {
+  table.results { font-size: 12px; }
+  table.results th,
+  table.results td { padding: 4px 3px; }
+  .bibtex pre { font-size: 12px; }
+}
+
+/* Touch screens: larger tap targets for the nav, tabs, presets, and buttons. */
+@media (pointer: coarse) {
+  .site-nav a { padding: 9px 12px; }
+  .metric-tabs button,
+  .demo-presets button,
+  .read-more,
+  .copy-btn { padding: 9px 14px; }
+}
+
+@media print {
+  .site-nav,
+  .cta-row,
+  .demo,
+  .metric-tabs,
+  .copy-btn,
+  .read-more,
+  .skip-link,
+  .screen-only { display: none !important; }
+  .abstract.collapsed {
+    display: block;
+    -webkit-line-clamp: none;
+    line-clamp: none;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .btn { border: 1px solid var(--line); background: none; color: var(--ink); }
+  .scrolls { -webkit-mask-image: none !important; mask-image: none !important; }
+  figure.scrolls figcaption::before { content: none; }
+  figure, table { break-inside: avoid; }
+  a { color: inherit; }
+}

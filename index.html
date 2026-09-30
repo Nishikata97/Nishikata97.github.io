@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qian Zhang &ndash; University of Otago</title>
+  <meta name="description" content="PhD candidate in Computer Science at the University of Otago, working on generative recommendation with semantic IDs and large language models.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://nishikata97.github.io/">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Qian Zhang">
+  <meta property="og:description" content="PhD candidate in Computer Science at the University of Otago, working on generative recommendation with semantic IDs and large language models.">
+  <meta property="og:url" content="https://nishikata97.github.io/">
+  <meta property="og:site_name" content="Qian Zhang">
+  <meta property="og:image" content="https://nishikata97.github.io/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Qian Zhang, PhD Candidate, University of Otago">
+  <meta property="profile:first_name" content="Qian">
+  <meta property="profile:last_name" content="Zhang">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://nishikata97.github.io/images/og.png">
+  <meta name="twitter:image:alt" content="Qian Zhang, PhD Candidate, University of Otago">
+  <link rel="icon" href="data:,">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Qian Zhang",
+      "url": "https://nishikata97.github.io/",
+      "image": "https://nishikata97.github.io/images/headshot.jpg",
+      "jobTitle": "PhD Candidate in Computer Science",
+      "affiliation": { "@type": "CollegeOrUniversity", "name": "University of Otago", "url": "https://www.otago.ac.nz" },
+      "knowsAbout": ["Generative Recommendation", "Semantic IDs", "Large Language Models"],
+      "sameAs": [
+        "https://github.com/Nishikata97",
+        "https://scholar.google.com/citations?user=TNkMXrwAAAAJ",
+        "https://www.linkedin.com/in/qian-zhang-04b975302/",
+        "https://orcid.org/0009-0009-1117-0236"
+      ]
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --link: #0066cc;
+      --code-bg: #f5f5f7;
+      --line: #d2d2d7;
+      --badge-bg: #e8e8ed;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --text: #f5f5f7;
+        --muted: #a1a1a6;
+        --link: #0a84ff;
+        --code-bg: #1d1d1f;
+        --line: #424245;
+        --badge-bg: #333336;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { max-width: 720px; margin: 0 auto; padding: 72px 20px 48px; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover, a:focus-visible { text-decoration: underline; }
+    :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 2px; }
+    h1 { margin: 0 0 12px; font-size: 40px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; }
+    h2 { margin: 44px 0 14px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+    p { margin: 0; }
+
+    /* Brackets around links, drawn outside the link so they are not underlined or read aloud. */
+    .bracketed::before { content: "["; content: "[" / ""; }
+    .bracketed::after { content: "]"; content: "]" / ""; }
+
+    /* Header: name and links on the left, photo on the right. */
+    .intro { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .photo { flex: none; width: 112px; height: auto; }
+    /* In dark mode a hairline keeps the photo's light background from floating on black. */
+    @media (prefers-color-scheme: dark) {
+      .photo { outline: 1px solid var(--line); }
+    }
+    .noscript-email { margin-top: 8px; color: var(--muted); }
+
+    /* Contact and profile links: [ icon Label ], separated by middle dots. */
+    .links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 0; padding: 0; list-style: none; color: var(--muted); }
+    .links li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+    /* The dot ends the previous item, so a wrapped line never starts with it. */
+    .links li:not(:last-child)::after { content: "\00B7"; content: "\00B7" / ""; }
+    .links .bracketed,
+    .links a { display: inline-flex; align-items: center; gap: 6px; }
+    /* Icons share one height. GitHub is cropped to its shape; the envelope sits in a square like the others. */
+    .icon { flex: none; height: 1em; fill: var(--text); }
+    /* The outline envelope gets a matching stroke so its lines weigh as much as the solid icons. */
+    .icon-email path { stroke: var(--text); stroke-width: 0.5; stroke-linejoin: round; }
+
+    .news { margin: 0; padding: 0; list-style: none; }
+    .news li { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 12px; margin-bottom: 8px; }
+    .news time { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    .pubs { margin: 0; padding: 0; list-style: none; }
+    .pubs > li { margin-bottom: 22px; }
+    .pub-title { font-weight: 600; }
+    .pub-authors, .pub-meta { color: var(--muted); }
+    .pub-authors strong { color: var(--text); font-weight: 600; }
+    /* Venue badge, then [paper] [code] [project] [bib]. */
+    .pub-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 4px; }
+    .pub-meta .bracketed { white-space: nowrap; }
+    .venue {
+      padding: 1px 10px;
+      border-radius: 999px;
+      background: var(--badge-bg);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .venue abbr { text-decoration: none; }
+    /* Only a project link has an icon, so papers with a project page stand out: a small browser window
+       (badge-gray page with abstract content, macOS traffic-light buttons). */
+    .link-icon { height: 0.9em; margin-right: 5px; vertical-align: -0.1em; color: var(--text); }
+    .link-icon .win-frame { fill: var(--badge-bg); stroke: currentColor; stroke-width: 1.5; }
+    .link-icon .win-bar { stroke: currentColor; stroke-width: 1.5; }
+    .link-icon .win-content { fill: var(--muted); }
+    .link-icon .win-close { fill: #ff5f57; }
+    .link-icon .win-minimize { fill: #febc2e; }
+    .link-icon .win-zoom { fill: #28c840; }
+    .linklike { padding: 0; border: 0; background: none; color: var(--link); font: inherit; cursor: pointer; }
+    .linklike:hover, .linklike:focus-visible { text-decoration: underline; }
+    .bibtex {
+      margin: 10px 0 0;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--code-bg);
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      overflow-x: auto;
+    }
+
+    footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+    /* Below 700px the photo moves above the name so the links row gets the full width. */
+    @media (max-width: 700px) {
+      .intro { flex-direction: column-reverse; align-items: flex-start; }
+      .photo { width: 88px; }
+    }
+    @media (max-width: 600px) {
+      .page { padding-top: 48px; }
+      h1 { font-size: 34px; }
+      .bibtex { font-size: 12px; }
+      .news li { grid-template-columns: 1fr; gap: 0; margin-bottom: 12px; }
+    }
+    /* Phones: the four links as a tidy two-by-two grid (one column on the smallest screens), no dots. */
+    @media (max-width: 560px) {
+      .links { display: grid; grid-template-columns: repeat(2, max-content); gap: 4px 16px; }
+      .links li:not(:last-child)::after { content: none; }
+    }
+    @media (max-width: 360px) {
+      .links { grid-template-columns: max-content; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="intro">
+    <div>
+      <h1>Qian Zhang</h1>
+      <ul class="links">
+        <li><span class="bracketed"><a class="email-link" data-user="qian.zhang" data-domain="postgrad.otago.ac.nz"><svg class="icon icon-email" viewBox="-0.3 -0.3 16.6 16.6" aria-hidden="true"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></svg>Email</a></span></li>
+        <li><span class="bracketed"><a href="https://github.com/Nishikata97"><svg class="icon" viewBox="0.5 1 23 22.278" aria-hidden="true"><path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"/></svg>GitHub</a></span></li>
+        <li><span class="bracketed"><a href="https://scholar.google.com/citations?user=TNkMXrwAAAAJ"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>Google Scholar</a></span></li>
+        <li><span class="bracketed"><a href="https://www.linkedin.com/in/qian-zhang-04b975302/"><svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg>LinkedIn</a></span></li>
+      </ul>
+      <noscript><p class="noscript-email">Email: qian.zhang [at] postgrad.otago.ac.nz</p></noscript>
+    </div>
+    <img class="photo" src="images/headshot.jpg" width="360" height="360" alt="Portrait of Qian Zhang">
+  </header>
+
+  <main>
+    <section id="about">
+      <h2>About</h2>
+      <p>I&rsquo;m a PhD candidate in Computer Science at the University of Otago, New Zealand. I work on generative recommendation, with a focus on semantic IDs and large language models.</p>
+    </section>
+
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news">
+        <li><time datetime="2026-08">Aug 2026</time><span>Our paper on <a href="CollisionGenRec/">faithful evaluation of semantic-ID tokenizers</a> was accepted to CIKM 2026.</span></li>
+        <li><time datetime="2026-04-21">Apr 2026</time><span>Our preprint on <a href="https://arxiv.org/abs/2604.19414">complementary-aware sequential recommendation</a> (CAST) was posted to arXiv.</span></li>
+        <li><time datetime="2025-07-09">Jul 2025</time><span>Our paper on <a href="https://doi.org/10.1145/3750724">semantic-relation-guided dual-view contrastive learning</a> for session-based recommendation was accepted to ACM TOIS.</span></li>
+        <li><time datetime="2025-06-26">Jun 2025</time><span>I presented our work on <a href="https://www.youtube.com/watch?v=ZHWlpJJKSEs">LLM-inferred item relationships</a> for sequential recommendation at the AIRA 2025 Mid-Year Workshop.</span></li>
+      </ul>
+    </section>
+
+    <section id="publications">
+      <h2>Selected Publications</h2>
+      <ul class="pubs">
+        <li>
+          <div class="pub-title">Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation</div>
+          <div class="pub-authors"><strong>Qian Zhang</strong>, Lech Szymanski, Jeremiah D. Deng, Haibo Zhang</div>
+          <div class="pub-meta"><span class="venue">CIKM 2026</span><span class="bracketed"><a href="https://arxiv.org/abs/2605.25330">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/CollisionGenRec">code</a></span><span class="bracketed"><a href="CollisionGenRec/"><svg class="link-icon" viewBox="0 0 20 15" aria-hidden="true"><rect class="win-frame" x="0.75" y="0.75" width="18.5" height="13.5" rx="2.25"/><path class="win-bar" d="M0.75 5.25h18.5"/><rect class="win-content" x="3" y="7.4" width="4.6" height="4.6" rx="0.8"/><rect class="win-content" x="9.2" y="7.6" width="7.8" height="1.4" rx="0.7"/><rect class="win-content" x="9.2" y="10.4" width="5.4" height="1.4" rx="0.7"/><circle class="win-close" cx="3.6" cy="3" r="1.2"/><circle class="win-minimize" cx="6.8" cy="3" r="1.2"/><circle class="win-zoom" cx="10" cy="3" r="1.2"/></svg>project</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-cikm2026">bib</button></span></div>
+          <pre class="bibtex" id="bib-cikm2026" hidden>@inproceedings{zhang2026faithful,
+  title     = {Faithful Evaluation of {Semantic-ID} Tokenizers for Generative Recommendation},
+  author    = {Zhang, Qian and Szymanski, Lech and Deng, Jeremiah D. and Zhang, Haibo},
+  booktitle = {Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)},
+  year      = {2026},
+  address   = {Rome, Italy},
+  publisher = {ACM},
+  doi       = {10.1145/3799682.3841124}
+}</pre>
+        </li>
+        <li>
+          <div class="pub-title">CAST: Modeling Semantic-Level Transitions for Complementary-Aware Sequential Recommendation</div>
+          <div class="pub-authors"><strong>Qian Zhang</strong>, Lech Szymanski, Haibo Zhang, Jeremiah D. Deng</div>
+          <div class="pub-meta"><span class="venue">arXiv 2026</span><span class="bracketed"><a href="https://arxiv.org/abs/2604.19414">paper</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-cast2026">bib</button></span></div>
+          <pre class="bibtex" id="bib-cast2026" hidden>@misc{zhang2026cast,
+  title         = {{CAST}: Modeling Semantic-Level Transitions for Complementary-Aware Sequential Recommendation},
+  author        = {Zhang, Qian and Szymanski, Lech and Zhang, Haibo and Deng, Jeremiah D.},
+  year          = {2026},
+  eprint        = {2604.19414},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.IR}
+}</pre>
+        </li>
+        <li>
+          <div class="pub-title">Semantic Relation Guided Dual-view Contrastive Learning for Session-based Recommendations</div>
+          <div class="pub-authors"><strong>Qian Zhang</strong>, Shoujin Wang, Longbing Cao, Defu Lian, Haibo Zhang, Wenpeng Lu</div>
+          <div class="pub-meta"><span class="venue"><abbr title="ACM Transactions on Information Systems">ACM TOIS</abbr> 2025</span><span class="bracketed"><a href="https://doi.org/10.1145/3750724">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/SCL-SR">code</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-tois2025">bib</button></span></div>
+          <pre class="bibtex" id="bib-tois2025" hidden>@article{zhang2025semantic,
+  title     = {Semantic Relation Guided Dual-view Contrastive Learning for Session-based Recommendations},
+  author    = {Zhang, Qian and Wang, Shoujin and Cao, Longbing and Lian, Defu and Zhang, Haibo and Lu, Wenpeng},
+  journal   = {ACM Transactions on Information Systems},
+  volume    = {43},
+  number    = {6},
+  pages     = {1--36},
+  year      = {2025},
+  publisher = {ACM},
+  doi       = {10.1145/3750724}
+}</pre>
+        </li>
+        <li>
+          <div class="pub-title">Rethinking Adjacent Dependency in Session-Based Recommendations</div>
+          <div class="pub-authors"><strong>Qian Zhang</strong>, Shoujin Wang, Wenpeng Lu, Chong Feng, Xueping Peng, Qingxiang Wang</div>
+          <div class="pub-meta"><span class="venue">PAKDD 2022</span><span class="bracketed"><a href="https://doi.org/10.1007/978-3-031-05981-0_24">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/RI-GNN">code</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-pakdd2022">bib</button></span></div>
+          <pre class="bibtex" id="bib-pakdd2022" hidden>@inproceedings{zhang2022rethinking,
+  title     = {Rethinking Adjacent Dependency in Session-Based Recommendations},
+  author    = {Zhang, Qian and Wang, Shoujin and Lu, Wenpeng and Feng, Chong and Peng, Xueping and Wang, Qingxiang},
+  booktitle = {Advances in Knowledge Discovery and Data Mining (PAKDD 2022)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {13282},
+  pages     = {301--313},
+  year      = {2022},
+  publisher = {Springer},
+  address   = {Cham},
+  doi       = {10.1007/978-3-031-05981-0_24}
+}</pre>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>Last updated: Sep 2026</footer>
+</div>
+
+<script>
+  // Build the mailto link here so the address is not in the page source.
+  document.querySelectorAll(".email-link").forEach((a) => {
+    a.href = "mailto:" + a.dataset.user + "@" + a.dataset.domain;
+  });
+  // BibTeX entries open in place.
+  document.querySelectorAll(".linklike[aria-controls]").forEach((btn) => {
+    const pre = document.getElementById(btn.getAttribute("aria-controls"));
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(open));
+      pre.hidden = !open;
+    });
+  });
+</script>
+</body>
+</html>
