@@ -63,6 +63,7 @@
     }
 
     * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
       margin: 0;
       background: var(--bg);
@@ -72,7 +73,8 @@
     }
     .page { max-width: 720px; margin: 0 auto; padding: 72px 20px 48px; }
     a { color: var(--link); text-decoration: none; }
-    a:hover, a:focus-visible { text-decoration: underline; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible { text-decoration: underline; }
     :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 2px; }
     h1 { margin: 0 0 12px; font-size: 40px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; }
     h2 { margin: 44px 0 14px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
@@ -81,9 +83,14 @@
     /* Brackets around links, drawn outside the link so they are not underlined or read aloud. */
     .bracketed::before { content: "["; content: "[" / ""; }
     .bracketed::after { content: "]"; content: "]" / ""; }
+    /* The focus ring goes around the whole "[link]" rather than across the brackets. */
+    @supports selector(:has(*)) {
+      .bracketed:has(> :focus-visible) { outline: 2px solid var(--link); outline-offset: 2px; border-radius: 2px; }
+      .bracketed > :focus-visible { outline: none; }
+    }
 
     /* Header: name and links on the left, photo on the right. */
-    .intro { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .intro { container-type: inline-size; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .photo { flex: none; width: 112px; height: auto; }
     /* In dark mode a hairline keeps the photo's light background from floating on black. */
     @media (prefers-color-scheme: dark) {
@@ -135,15 +142,19 @@
     .link-icon .win-minimize { fill: #febc2e; }
     .link-icon .win-zoom { fill: #28c840; }
     .linklike { padding: 0; border: 0; background: none; color: var(--link); font: inherit; cursor: pointer; }
-    .linklike:hover, .linklike:focus-visible { text-decoration: underline; }
+    .linklike:hover { text-decoration: underline; }
+    .linklike:focus-visible { text-decoration: underline; }
     .bibtex {
       margin: 10px 0 0;
       padding: 14px 16px;
       border-radius: 10px;
       background: var(--code-bg);
       font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      overflow-x: auto;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
     }
+    /* One field per line; a wrapped value hangs under its start (--hang: the width of "  key = "). */
+    .bib-field { display: inline-block; width: 100%; padding-left: var(--hang, 14ch); text-indent: calc(-1 * var(--hang, 14ch)); vertical-align: top; }
 
     footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
@@ -156,6 +167,7 @@
       .page { padding-top: 48px; }
       h1 { font-size: 34px; }
       .bibtex { font-size: 12px; }
+      .bib-field { --hang: 4ch; }
       .news li { grid-template-columns: 1fr; gap: 0; margin-bottom: 12px; }
     }
     /* Phones: the four links as a tidy two-by-two grid (one column on the smallest screens), no dots. */
@@ -164,6 +176,10 @@
       .links li:not(:last-child)::after { content: none; }
     }
     @media (max-width: 360px) {
+      .links { grid-template-columns: max-content; }
+    }
+    /* Larger text: one link per row as soon as two no longer fit. */
+    @container (max-width: 16em) {
       .links { grid-template-columns: max-content; }
     }
   </style>
@@ -208,26 +224,26 @@
           <div class="pub-authors"><strong>Qian Zhang</strong>, Lech Szymanski, Jeremiah D. Deng, Haibo Zhang</div>
           <div class="pub-meta"><span class="venue">CIKM 2026</span><span class="bracketed"><a href="https://arxiv.org/abs/2605.25330">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/CollisionGenRec">code</a></span><span class="bracketed"><a href="CollisionGenRec/"><svg class="link-icon" viewBox="0 0 20 15" aria-hidden="true"><rect class="win-frame" x="0.75" y="0.75" width="18.5" height="13.5" rx="2.25"/><path class="win-bar" d="M0.75 5.25h18.5"/><rect class="win-content" x="3" y="7.4" width="4.6" height="4.6" rx="0.8"/><rect class="win-content" x="9.2" y="7.6" width="7.8" height="1.4" rx="0.7"/><rect class="win-content" x="9.2" y="10.4" width="5.4" height="1.4" rx="0.7"/><circle class="win-close" cx="3.6" cy="3" r="1.2"/><circle class="win-minimize" cx="6.8" cy="3" r="1.2"/><circle class="win-zoom" cx="10" cy="3" r="1.2"/></svg>project</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-cikm2026">bib</button></span></div>
           <pre class="bibtex" id="bib-cikm2026" hidden>@inproceedings{zhang2026faithful,
-  title     = {Faithful Evaluation of {Semantic-ID} Tokenizers for Generative Recommendation},
-  author    = {Zhang, Qian and Szymanski, Lech and Deng, Jeremiah D. and Zhang, Haibo},
-  booktitle = {Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)},
-  year      = {2026},
-  address   = {Rome, Italy},
-  publisher = {ACM},
-  doi       = {10.1145/3799682.3841124}
+<span class="bib-field">  title     = {Faithful Evaluation of {Semantic-ID} Tokenizers for Generative Recommendation},</span>
+<span class="bib-field">  author    = {Zhang, Qian and Szymanski, Lech and Deng, Jeremiah D. and Zhang, Haibo},</span>
+<span class="bib-field">  booktitle = {Proceedings of the 35th ACM International Conference on Information and Knowledge Management (CIKM '26)},</span>
+<span class="bib-field">  year      = {2026},</span>
+<span class="bib-field">  address   = {Rome, Italy},</span>
+<span class="bib-field">  publisher = {ACM},</span>
+<span class="bib-field">  doi       = {10.1145/3799682.3841124}</span>
 }</pre>
         </li>
         <li>
           <div class="pub-title">CAST: Modeling Semantic-Level Transitions for Complementary-Aware Sequential Recommendation</div>
           <div class="pub-authors"><strong>Qian Zhang</strong>, Lech Szymanski, Haibo Zhang, Jeremiah D. Deng</div>
           <div class="pub-meta"><span class="venue">arXiv 2026</span><span class="bracketed"><a href="https://arxiv.org/abs/2604.19414">paper</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-cast2026">bib</button></span></div>
-          <pre class="bibtex" id="bib-cast2026" hidden>@misc{zhang2026cast,
-  title         = {{CAST}: Modeling Semantic-Level Transitions for Complementary-Aware Sequential Recommendation},
-  author        = {Zhang, Qian and Szymanski, Lech and Zhang, Haibo and Deng, Jeremiah D.},
-  year          = {2026},
-  eprint        = {2604.19414},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.IR}
+          <pre class="bibtex" id="bib-cast2026" style="--hang: 18ch" hidden>@misc{zhang2026cast,
+<span class="bib-field">  title         = {{CAST}: Modeling Semantic-Level Transitions for Complementary-Aware Sequential Recommendation},</span>
+<span class="bib-field">  author        = {Zhang, Qian and Szymanski, Lech and Zhang, Haibo and Deng, Jeremiah D.},</span>
+<span class="bib-field">  year          = {2026},</span>
+<span class="bib-field">  eprint        = {2604.19414},</span>
+<span class="bib-field">  archivePrefix = {arXiv},</span>
+<span class="bib-field">  primaryClass  = {cs.IR}</span>
 }</pre>
         </li>
         <li>
@@ -235,15 +251,15 @@
           <div class="pub-authors"><strong>Qian Zhang</strong>, Shoujin Wang, Longbing Cao, Defu Lian, Haibo Zhang, Wenpeng Lu</div>
           <div class="pub-meta"><span class="venue"><abbr title="ACM Transactions on Information Systems">ACM TOIS</abbr> 2025</span><span class="bracketed"><a href="https://doi.org/10.1145/3750724">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/SCL-SR">code</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-tois2025">bib</button></span></div>
           <pre class="bibtex" id="bib-tois2025" hidden>@article{zhang2025semantic,
-  title     = {Semantic Relation Guided Dual-view Contrastive Learning for Session-based Recommendations},
-  author    = {Zhang, Qian and Wang, Shoujin and Cao, Longbing and Lian, Defu and Zhang, Haibo and Lu, Wenpeng},
-  journal   = {ACM Transactions on Information Systems},
-  volume    = {43},
-  number    = {6},
-  pages     = {1--36},
-  year      = {2025},
-  publisher = {ACM},
-  doi       = {10.1145/3750724}
+<span class="bib-field">  title     = {Semantic Relation Guided Dual-view Contrastive Learning for Session-based Recommendations},</span>
+<span class="bib-field">  author    = {Zhang, Qian and Wang, Shoujin and Cao, Longbing and Lian, Defu and Zhang, Haibo and Lu, Wenpeng},</span>
+<span class="bib-field">  journal   = {ACM Transactions on Information Systems},</span>
+<span class="bib-field">  volume    = {43},</span>
+<span class="bib-field">  number    = {6},</span>
+<span class="bib-field">  pages     = {1--36},</span>
+<span class="bib-field">  year      = {2025},</span>
+<span class="bib-field">  publisher = {ACM},</span>
+<span class="bib-field">  doi       = {10.1145/3750724}</span>
 }</pre>
         </li>
         <li>
@@ -251,16 +267,16 @@
           <div class="pub-authors"><strong>Qian Zhang</strong>, Shoujin Wang, Wenpeng Lu, Chong Feng, Xueping Peng, Qingxiang Wang</div>
           <div class="pub-meta"><span class="venue">PAKDD 2022</span><span class="bracketed"><a href="https://doi.org/10.1007/978-3-031-05981-0_24">paper</a></span><span class="bracketed"><a href="https://github.com/Nishikata97/RI-GNN">code</a></span><span class="bracketed"><button type="button" class="linklike" aria-expanded="false" aria-controls="bib-pakdd2022">bib</button></span></div>
           <pre class="bibtex" id="bib-pakdd2022" hidden>@inproceedings{zhang2022rethinking,
-  title     = {Rethinking Adjacent Dependency in Session-Based Recommendations},
-  author    = {Zhang, Qian and Wang, Shoujin and Lu, Wenpeng and Feng, Chong and Peng, Xueping and Wang, Qingxiang},
-  booktitle = {Advances in Knowledge Discovery and Data Mining (PAKDD 2022)},
-  series    = {Lecture Notes in Computer Science},
-  volume    = {13282},
-  pages     = {301--313},
-  year      = {2022},
-  publisher = {Springer},
-  address   = {Cham},
-  doi       = {10.1007/978-3-031-05981-0_24}
+<span class="bib-field">  title     = {Rethinking Adjacent Dependency in Session-Based Recommendations},</span>
+<span class="bib-field">  author    = {Zhang, Qian and Wang, Shoujin and Lu, Wenpeng and Feng, Chong and Peng, Xueping and Wang, Qingxiang},</span>
+<span class="bib-field">  booktitle = {Advances in Knowledge Discovery and Data Mining (PAKDD 2022)},</span>
+<span class="bib-field">  series    = {Lecture Notes in Computer Science},</span>
+<span class="bib-field">  volume    = {13282},</span>
+<span class="bib-field">  pages     = {301--313},</span>
+<span class="bib-field">  year      = {2022},</span>
+<span class="bib-field">  publisher = {Springer},</span>
+<span class="bib-field">  address   = {Cham},</span>
+<span class="bib-field">  doi       = {10.1007/978-3-031-05981-0_24}</span>
 }</pre>
         </li>
       </ul>

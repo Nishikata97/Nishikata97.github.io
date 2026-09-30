@@ -2,6 +2,43 @@
    Colors match the CIKM 2026 poster. Sections follow the page from top to bottom (a shared component sits
    where it first appears); media queries are at the end. */
 
+/* ---------- fonts ---------- */
+/* Raleway and Source Sans 3 (SIL Open Font License 1.1, see static/fonts/): the variable Google Fonts files,
+   served from this site. Each file covers the unicode-range below; the browser fetches a file only when the
+   page uses a character in its range. */
+@font-face {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("../fonts/raleway-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-greek.woff2") format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ---------- tokens ---------- */
 /* Colors shared across components. A shade that only one component uses is set in that component's rules. */
 :root {
@@ -31,8 +68,12 @@
 /* ---------- base ---------- */
 * { box-sizing: border-box; }
 
-/* Anchored targets and focused controls clear the sticky bar. */
-html { scroll-padding-top: 64px; }
+/* Anchored targets and focused controls clear the sticky bar. No automatic text inflation (iOS landscape). */
+html {
+  scroll-padding-top: 64px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
@@ -95,7 +136,6 @@ p { margin: 0 0 16px; }
   top: 0;
   z-index: 10;
   display: flex;
-  justify-content: center;
   gap: 4px;
   padding: 8px 12px;
   border-bottom: 1px solid var(--line);
@@ -119,12 +159,12 @@ p { margin: 0 0 16px; }
 }
 .site-nav::before {
   left: -12px;
-  margin: -8px -28px -8px -12px;
+  margin: -8px -20px -8px -12px;
   background: linear-gradient(to left, transparent, var(--bg) 70%);
 }
 .site-nav::after {
   right: -12px;
-  margin: -8px -12px -8px -28px;
+  margin: -8px -12px -8px -20px;
   background: linear-gradient(to right, transparent, var(--bg) 70%);
 }
 .site-nav.fade-l::before,
@@ -137,6 +177,9 @@ p { margin: 0 0 16px; }
   font: 600 15px/1.4 var(--font-body);
   text-decoration: none;
 }
+/* Auto margins center the links while they fit; when they overflow, the first one stays reachable. */
+.site-nav a:first-of-type { margin-left: auto; }
+.site-nav a:last-of-type { margin-right: auto; }
 .site-nav a:hover:not([aria-current]) { color: var(--navy); background: var(--panel); }
 .site-nav a[aria-current="location"] { color: var(--on-fill); background: var(--navy); }
 
@@ -329,7 +372,7 @@ h3 {
 .cta.zcr:hover { background: #dcefe3; color: #0a4a20; }
 
 /* ---------- abstract ---------- */
-.abstract { text-align: justify; hyphens: auto; }
+.abstract { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
 /* Only the first lines show until "Read the full abstract" is pressed. */
 .abstract.collapsed {
   display: -webkit-box;
@@ -402,24 +445,36 @@ figure.wide img { width: 100%; max-width: 880px; }
 /* Wide figures keep a readable minimum width (--mw) and scroll sideways when the screen is narrower.
    initScrollCues marks scrolling boxes (.scrolls) and the edge with more content (.fade-l, .fade-r). */
 .fig-scroll { overflow-x: auto; }
+/* position: relative keeps absolutely positioned content (KaTeX's MathML, visually hidden notes) inside a
+   scroller; otherwise it escapes it and widens the page. */
+.fig-scroll,
+.table-wrap,
+.eq,
+.algorithm-wrap { position: relative; }
 figure .fig-scroll img { min-width: var(--mw, 0); }
 figure.scrolls figcaption::before {
   content: "Scroll sideways to see the whole figure. ";
   font-style: italic;
 }
-:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-r {
+:is(.fig-scroll, .table-wrap, .eq, .algorithm-wrap, .cce-rows).fade-r {
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
 }
-:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-l {
+:is(.fig-scroll, .table-wrap, .eq, .algorithm-wrap, .cce-rows).fade-l {
   -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
   mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
 }
-:is(.fig-scroll, .table-wrap, .eq, .cce-rows).fade-l.fade-r {
+:is(.fig-scroll, .table-wrap, .eq, .algorithm-wrap, .cce-rows).fade-l.fade-r {
   -webkit-mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
   mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent);
 }
-.scrolls[tabindex]:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+.scrolls[tabindex]:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: -2px;
+  /* The edge fade would hide part of the focus ring. */
+  -webkit-mask-image: none;
+  mask-image: none;
+}
 
 /* Two-tier notes under figures and tables: a compact key to the abbreviations, then the takeaway. */
 .note-key { display: block; font-size: 14px; }
@@ -439,6 +494,7 @@ figure.scrolls figcaption::before {
   margin: 8px 0 12px;
 }
 .coll-card {
+  container-type: inline-size;
   padding: 14px 18px;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -626,6 +682,10 @@ main li .katex,
   margin-bottom: 8px;
 }
 .cce-row.sids { margin-bottom: 42px; } /* room for the links down to the item row */
+/* Labels above the cells (below them for the item row, so the links do not cross it), when the cells need the
+   full width: set by fitRows, and always on phones (see the 640px query). */
+.cce-rows.stacked .cce-row { grid-template-columns: 1fr; gap: 4px; }
+.cce-rows.stacked .cce-row.items .cce-row-label { order: 2; }
 .cce-row-label { color: var(--muted); font-size: 15px; }
 
 /* Cells in the paper's notation: a pill with its rank above it.
@@ -691,7 +751,7 @@ main li .katex,
 .cce-swatch.sid { background: var(--sid-strong); }
 .cce-swatch.item { background: var(--item-strong); }
 .cce-swatch.other { border: 1.5px solid var(--cell-border); background: var(--bg); }
-.cce-swatch.cut { width: 0; border-left: 2.5px dashed var(--red); border-radius: 0; }
+.cce-swatch.cut { width: 2.5px; border-radius: 0; background: repeating-linear-gradient(var(--red) 0 4px, transparent 4px 7px); }
 
 /* ---------- ZCR demo: native, greedy, and ZCR side by side ---------- */
 .zcr-sub { margin: 0 0 12px; color: var(--muted); font-size: 15.5px; }
@@ -767,15 +827,13 @@ main li .katex,
   margin: 4px 0 10px;
 }
 
-/* position: relative keeps absolutely positioned content (KaTeX's MathML, visually hidden notes) inside the
-   scroller; otherwise it escapes it and widens the page. */
 .table-wrap {
-  position: relative;
   overflow-x: auto;
   margin: 8px 0 4px;
 }
 table.results {
   margin: 0 auto;
+  border-bottom: 2px solid var(--ink);
   border-collapse: collapse;
   font-size: 16px;
   font-variant-numeric: tabular-nums;
@@ -795,7 +853,6 @@ table.results thead th {
   border-top: 2px solid var(--ink);
   border-bottom: 1.5px solid var(--ink);
 }
-table.results tbody tr:last-child > * { border-bottom: 2px solid var(--ink); }
 table.results tr.group-start > * { border-top: 1px solid #b9c0cc; }
 table.results th.ds,
 table.results th.tok { text-align: left; }
@@ -839,16 +896,22 @@ details.more > summary,
 }
 details.more > summary::-webkit-details-marker,
 .qa summary::-webkit-details-marker { display: none; }
+/* The +/- marker is drawn with two bars. A "+" glyph would inherit the summary's text-indent inside its
+   inline-block and be pushed out of the card, and its size would depend on the font. The marker's width plus
+   its margin equal the 1.2em hanging indent. */
 details.more > summary::before,
 .qa summary::before {
-  content: "+";
+  content: "";
   display: inline-block;
-  width: 1.2em;
-  color: var(--sid);
-  font-weight: 800;
+  width: 0.62em;
+  height: 0.62em;
+  margin-right: 0.58em;
+  background:
+    linear-gradient(var(--sid), var(--sid)) center / 100% 2.5px no-repeat,
+    linear-gradient(var(--sid), var(--sid)) center / 2.5px 100% no-repeat;
 }
 details[open].more > summary::before,
-.qa details[open] summary::before { content: "\2212"; }
+.qa details[open] summary::before { background-size: 100% 2.5px, 2.5px 0; }
 details.more > :not(summary),
 .qa details > :not(summary) { margin-left: 18px; margin-right: 18px; }
 .qa details p,
@@ -856,6 +919,7 @@ details.more > :not(summary),
 .qa details ul { padding-left: 22px; }
 .qa details li { margin-bottom: 6px; }
 
+.setup { padding-bottom: 14px; }
 .setup ul { padding-left: 22px; }
 .setup li { margin-bottom: 4px; }
 
@@ -907,7 +971,7 @@ footer {
 
 /* Compact collision cards on phones and in two narrow columns (681-900px, see the 680px query below),
    so G_max stays inside the card. */
-@media (max-width: 480px), (min-width: 681px) and (max-width: 900px) {
+@media (max-width: 480px), (min-width: 680.02px) and (max-width: 900px) {
   .coll-card { padding: 12px 14px; }
   .coll-row {
     grid-template-columns: 4.9em 3.9em minmax(24px, 1fr) 5.1em;
@@ -922,14 +986,10 @@ footer {
 }
 
 /* ZCR panels on tablets: native on top, greedy and ZCR side by side below it (one column on phones). */
-@media (min-width: 601px) and (max-width: 860px) {
+@media (min-width: 600.02px) and (max-width: 860px) {
   .zcr-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; }
   .zcr-panel { width: 100%; }
   .zcr-panel.native { grid-column: 1 / -1; max-width: 440px; }
-}
-
-@media (max-width: 760px) {
-  .site-nav { justify-content: flex-start; }
 }
 
 @media (max-width: 680px) {
@@ -939,7 +999,6 @@ footer {
 @media (max-width: 640px) {
   .cce-controls { grid-template-columns: 1fr; }
   .cce-row { grid-template-columns: 1fr; gap: 4px; }
-  /* Put the item-row label under its cells so the links do not cross it. */
   .cce-row.items .cce-row-label { order: 2; }
   .demo-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -995,21 +1054,44 @@ footer {
   table.results { font-size: 13px; }
   table.results th,
   table.results td { padding: 4px; }
-  /* A left-aligned caption, no wider than the screen, stays in view when the table scrolls. */
-  table.results caption { max-width: calc(100vw - 32px); text-align: left; }
-  details.more table.results caption { max-width: calc(100vw - 72px); }
+  /* A left-aligned caption stays in view when the table scrolls; it ends before the 32px edge fade. */
+  table.results caption { max-width: calc(100vw - 64px); text-align: left; }
+  details.more table.results caption { max-width: calc(100vw - 104px); }
   /* A little more width for the demo's cell rows. */
   .demo { padding-left: 13px; padding-right: 13px; }
   /* Four metric tabs in two rows of two. */
   .metric-tabs { display: grid; grid-template-columns: repeat(2, max-content); }
 }
 
-/* Very small phones (360px and below): a little tighter still. */
+/* Very small phones (360px and below): a little tighter still; Algorithm 1 fits without scrolling. */
 @media (max-width: 360px) {
   table.results { font-size: 12px; }
   table.results th,
   table.results td { padding: 4px 3px; }
   .bibtex pre { font-size: 12px; }
+  .ps-root { font-size: 14px; }
+}
+
+/* Zoomed-in phones (a CSS width under 260px, e.g. 200% zoom): the title hyphenates; names, number ranges, inline
+   formulas, and the email address may wrap; the metric tabs flow onto as many rows as they need; the Starbucks icon
+   sits above its text; and collapsible blocks have narrower side margins. */
+@media (max-width: 260px) {
+  .title { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: anywhere; }
+  main p .katex,
+  main li .katex,
+  .math-glue,
+  .nowrap { white-space: normal; }
+  footer a { overflow-wrap: anywhere; }
+  .metric-tabs { display: flex; }
+  .funfact { flex-direction: column; }
+  details.more > :not(summary),
+  .qa details > :not(summary) { margin-left: 12px; margin-right: 12px; }
+}
+
+/* Collision cards with very little room (zoomed-in phones, larger text): G_max goes under the bar. */
+@container (max-width: 14.8em) {
+  .coll-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; }
+  .coll-bar { grid-column: 1 / -1; }
 }
 
 /* Touch screens: larger tap targets for the nav, tabs, presets, and buttons. */
@@ -1041,6 +1123,11 @@ footer {
   .btn { border: 1px solid var(--line); background: none; color: var(--ink); }
   .scrolls { -webkit-mask-image: none !important; mask-image: none !important; }
   figure.scrolls figcaption::before { content: none; }
+  .fig-scroll,
+  .table-wrap,
+  .eq,
+  .algorithm-wrap { overflow: visible; }
+  figure .fig-scroll img { min-width: 0; }
   figure, table { break-inside: avoid; }
   a { color: inherit; }
 }

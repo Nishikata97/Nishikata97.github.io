@@ -20,6 +20,7 @@
   <meta property="og:title" content="Faithful Evaluation of Semantic-ID Tokenizers for Generative Recommendation">
   <meta property="og:description" content="Did you find the item or just match the SID? Collision-Corrected Evaluation (CCE) and Zero-Collision Reassignment (ZCR) for SID-based generative recommendation. CIKM 2026.">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Qian Zhang">
   <meta property="og:url" content="https://nishikata97.github.io/CollisionGenRec/">
   <meta property="og:image" content="https://nishikata97.github.io/CollisionGenRec/static/img/social.png">
   <meta property="og:image:width" content="1200">
@@ -33,16 +34,15 @@
   <link rel="icon" href="static/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="static/img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="preload" href="static/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/raleway-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="static/vendor/katex-0.16.11/katex.min.css">
   <link rel="stylesheet" href="static/css/style.css">
+  <noscript><style>.demo > :not(.demo-head, noscript), .demo-presets { display: none; }</style></noscript>
 </head>
 <body>
 
-<svg hidden>
+<svg style="display: none">
   <!-- Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0) Copyright 2024 Fonticons, Inc. -->
   <!-- arXiv icon from Academicons 1.9.4 - https://jpswalsh.github.io/academicons/ (SIL OFL 1.1) -->
   <symbol id="icon-arxiv" viewBox="0 0 448 512"><path transform="matrix(1.5499998,0,0,-1.5499998,-123.19936,553.59966)" d="m 119.65,351.996 c -5.84961,0.13477 -11.1943,-3.29883 -13.502,-8.67578 -2.19629,-5.27051 -0.61914,-8.9668 4.19727,-15.8652 7.05469,-10.3799 78.8242,-96.5625 78.8242,-96.5625 l -15.8828,-14.8633 c -13.3809,-13.3779 -13.9561,-31.333 -1.50977,-43.7754 l 18.4922,-17.6133 -51.5977,-63.377 c -4.00586,-4.26758 -6.48535,-11.7559 -4.24805,-17.1309 2.27832,-5.53613 7.69727,-9.12891 13.6836,-9.07031 3.83398,0.0957 7.43262,1.87402 9.83789,4.86133 l 61.3691,57.0566 94.5762,-90.0703 c 3.19434,-3.08398 7.44336,-4.83984 11.8828,-4.91016 1.60449,0.0039 3.19824,0.245117 4.73242,0.714844 5.7793,1.80566 10.249,6.41797 11.8711,12.252 1.2998,5.47363 -0.27637,11.2334 -4.18164,15.2832 l -83.0859,100.011996 14.8789,13.834 c 11.0957,10.0029 11.1543,27.3906 0.12695,37.4688 l -16.2949,15.6309 56.2559,66.4434 0.0742,0.0859 0.0664,0.0899 c 5.02734,6.53125 7.43164,11.5615 4.83984,17.9395 -3.13379,5.96875 -8.69727,10.29 -15.2559,11.8516 -0.67676,0.0908 -1.35938,0.13574 -2.04297,0.13671 l -0.004,-0.0117 c -4.42871,-0.27051 -8.61035,-2.13086 -11.7754,-5.24023 l -0.13086,-0.10743 -0.12304,-0.11132 -65.207,-59.127 -89.8965,86.2402 c 0,0 -5.33398,6.47754 -10.9707,6.61133 z m 178.104,-33.041 c 0.47852,-0.002 0.95703,-0.0332 1.43164,-0.0957 4.84277,-1.33301 8.95605,-4.54004 11.4316,-8.91016 1.44922,-3.5625 1.00293,-6.45703 -4.19727,-13.2148 l -56.0586,-66.2188 -26.375,25.3027 64.9551,58.9062 c 2.33887,2.41504 5.46484,3.91113 8.8125,4.2168 v 0.0137 z M 192.436,227.402 334.446,57.244 c 2.78711,-3.48926 4.5293,-6.97949 3.3418,-10.9121 -1.16113,-4.30273 -4.43457,-7.71777 -8.68555,-9.05664 -1.08105,-0.333984 -2.20508,-0.503906 -3.33594,-0.505859 -3.20801,0.07617 -6.26953,1.35645 -8.57617,3.58789 l -142.033,135.284999 c -11.1719,11.1719 -9.48242,26.0195 1.39258,36.8945 z"/></symbol>
@@ -114,7 +114,7 @@
       <a class="finding flip" href="#inflation">
         <span class="finding-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 320 512"><use href="#icon-arrows-up-down"/></svg></span>
         <span><span class="finding-num">1st &rarr; last</span>
-        <span class="finding-text">RK-Means: 1st by Hit@10 &rarr; last by ItemHit@10 on 3 of 4 datasets.</span></span>
+        <span class="finding-text"><span class="nowrap">RK-Means</span>: 1st by Hit@10 &rarr; last by ItemHit@10 on 3 of 4 datasets.</span></span>
       </a>
       <a class="finding improve" href="#performance">
         <span class="finding-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 576 512"><use href="#icon-wand-magic-sparkles"/></svg></span>
@@ -139,7 +139,7 @@
     <h2>One SID match &ne; one item hit</h2>
     <p class="lead-in"><strong>Background: SID-based generative recommendation.</strong></p>
     <figure>
-      <div class="fig-scroll" style="--mw:660px"><img src="static/img/intro_pipeline.svg" width="946" height="157" loading="lazy" alt="Item text (titles, categories, brands) is encoded by a pretrained language model and quantized into a SID sequence; an autoregressive model with beam search outputs the top-K predicted SID sequences."></div>
+      <div class="fig-scroll" data-name="Pipeline figure" style="--mw:660px"><img src="static/img/intro_pipeline.svg" width="946" height="157" loading="lazy" alt="Item text (titles, categories, brands) is encoded by a pretrained language model and quantized into a SID sequence; an autoregressive model with beam search outputs the top-K predicted SID sequences."></div>
       <figcaption>Each item is tokenized into a short sequence of discrete codes (its SID). An autoregressive model then generates the SID of the next item, and beam search returns a ranked list of SIDs, not items.</figcaption>
     </figure>
     <p class="lead-in"><strong>Problem: SID collisions.</strong><br>Different items can share one SID, forming a <em>collision group</em>. Hit@$K$ still counts a hit on that SID as a full item hit, so it overstates item-level accuracy and can favor tokenizers with more collisions.</p>
@@ -234,11 +234,11 @@
 
     <h3 id="cce">1. CCE: count hits per item, not per SID</h3>
     <figure class="wide">
-      <div class="fig-scroll" style="--mw:520px"><img src="static/img/cce.svg" width="571" height="212" loading="lazy" alt="Collision-corrected top-5 example. Five generated SIDs are ranked; the target SID is at rank 4. Expanding each SID into its collision group places the three unordered target-group items at positions 4 to 6. Only two of them fall inside the top 5, so the prediction receives item-level credit of two thirds instead of a full SID-level hit."></div>
+      <div class="fig-scroll" data-name="CCE example figure" style="--mw:520px"><img src="static/img/cce.svg" width="571" height="212" loading="lazy" alt="Collision-corrected top-5 example. Five generated SIDs are ranked; the target SID is at rank 4. Expanding each SID into its collision group places the three unordered target-group items at positions 4 to 6. Only two of them fall inside the top 5, so the prediction receives item-level credit of two thirds instead of a full SID-level hit."></div>
       <figcaption><span class="note-key">Top-5 example &middot; target SID at rank 4 &middot; its collision group has 3 unordered items</span><span class="note-take">Only 2 of the 3 items fall inside the top 5, so the SID-level hit earns item-level credit 2/3.</span></figcaption>
     </figure>
     <p>CCE replaces each generated SID with its collision group, so the ranked SIDs become a ranked list of items. If the target SID is at rank $r$ and its group has $g$ items, the group occupies positions $p$ to $p+g-1$, after the items of the groups ranked above it, and $m$ of them fall inside the top $K$. The target could be any of the $g$ items, so CCE gives it credit $m/g$:</p>
-    <div class="eq">\[ \begin{gathered} \text{ItemHit@}K = \frac{m}{g} \\ \text{ItemNDCG@}K = \frac{1}{g}\sum_{e=1}^{m}\frac{1}{\log_2(p+e)} \end{gathered} \]</div>
+    <div class="eq" data-name="CCE metrics equation">\[ \begin{gathered} \text{ItemHit@}K = \frac{m}{g} \\ \text{ItemNDCG@}K = \frac{1}{g}\sum_{e=1}^{m}\frac{1}{\log_2(p+e)} \end{gathered} \]</div>
     <p>In the figure, $K=5$, $r=4$, $g=3$, and $m=2$.<span class="screen-only"> Try other cases below.</span></p>
     <div class="demo" id="cce-demo">
       <div class="demo-head">
@@ -250,6 +250,7 @@
           <button type="button" data-preset="pushed">SID hit, zero item credit</button>
         </div>
       </div>
+      <noscript><p class="demo-explain">This interactive demo needs JavaScript.</p></noscript>
       <div class="cce-controls">
         <div>
           <div class="cce-control-head"><label for="cce-k">Top-$K$ cutoff</label><output id="cce-k-out" for="cce-k" aria-hidden="true"></output></div>
@@ -257,11 +258,11 @@
         </div>
         <div>
           <div class="cce-control-head"><label for="cce-r">Rank $r$ of the target SID</label><output id="cce-r-out" for="cce-r" aria-hidden="true"></output></div>
-          <input type="range" id="cce-r" min="1" max="10" value="4">
+          <input type="range" id="cce-r" min="1" max="10" value="4" aria-label="Rank r of the target SID">
         </div>
         <div>
           <div class="cce-control-head"><label for="cce-g">Target group size $g$</label><output id="cce-g-out" for="cce-g" aria-hidden="true"></output></div>
-          <input type="range" id="cce-g" min="1" max="6" value="3">
+          <input type="range" id="cce-g" min="1" max="6" value="3" aria-label="Target group size g">
         </div>
         <div>
           <div class="cce-control-head"><label for="cce-a">Extra items from collisions ranked above</label><output id="cce-a-out" for="cce-a" aria-hidden="true"></output></div>
@@ -269,7 +270,7 @@
           <span class="cce-hint" id="cce-a-hint" hidden>Needs rank $r &gt; 1$: no SID ranks above the first.</span>
         </div>
       </div>
-      <div class="cce-rows" aria-hidden="true">
+      <div class="cce-rows" aria-hidden="true" tabindex="-1">
         <div class="cce-track">
           <svg class="cce-links"></svg>
           <div class="cce-row sids"><span class="cce-row-label">Top-$K$ generated SIDs</span><div class="cce-cells" id="cce-cells-sid"></div></div>
@@ -294,14 +295,14 @@
 
     <h3 id="zcr">2. ZCR: remove collisions at minimum cost</h3>
     <p>ZCR keeps each item&rsquo;s first $L-1$ codes and reassigns only the last one. Collisions can then only occur within a prefix group $\mathcal{P}(\mathbf{p})$, the items sharing prefix $\mathbf{p}$, so each group is solved on its own. Here $\rho_{\mathbf{p}}$ is the number of items that must be reassigned, and $D[i,c]$ is the cost of giving item $i$ last-level code $c$:</p>
-    <div class="eq">\[ \begin{gathered} \rho_{\mathbf{p}} = |\mathcal{P}(\mathbf{p})| - |\{s_i^{(L)} : i \in \mathcal{P}(\mathbf{p})\}| \\ D[i,c] = \|\mathbf{r}_i^{(L-1)} - \mathbf{e}_c^{(L)}\|^2 \end{gathered} \]</div>
+    <div class="eq" data-name="ZCR definitions equation">\[ \begin{gathered} \rho_{\mathbf{p}} = |\mathcal{P}(\mathbf{p})| - |\{s_i^{(L)} : i \in \mathcal{P}(\mathbf{p})\}| \\ D[i,c] = \|\mathbf{r}_i^{(L-1)} - \mathbf{e}_c^{(L)}\|^2 \end{gathered} \]</div>
     <p>ZCR then reassigns exactly $\rho_{\mathbf{p}}$ items so that no two items share a code, at the lowest total cost:</p>
-    <div class="eq">\[ \begin{aligned} &\min_{\{\hat{s}_i^{(L)}\}} \sum_{i \in \mathcal{P}(\mathbf{p})} \bigl(D[i,\hat{s}_i^{(L)}] - D[i,s_i^{(L)}]\bigr) \\ &\ \text{s.t.}\ \ |\{i : \hat{s}_i^{(L)} \ne s_i^{(L)}\}| = \rho_{\mathbf{p}} \\ &\ \phantom{\text{s.t.}}\ \ \hat{s}_i^{(L)} \ne \hat{s}_j^{(L)} \text{ for } i \ne j \end{aligned} \]</div>
+    <div class="eq" data-name="ZCR objective equation">\[ \begin{aligned} &\min_{\{\hat{s}_i^{(L)}\}} \sum_{i \in \mathcal{P}(\mathbf{p})} \bigl(D[i,\hat{s}_i^{(L)}] - D[i,s_i^{(L)}]\bigr) \\ &\ \text{s.t.}\ \ |\{i : \hat{s}_i^{(L)} \ne s_i^{(L)}\}| = \rho_{\mathbf{p}} \\ &\ \phantom{\text{s.t.}}\ \ \hat{s}_i^{(L)} \ne \hat{s}_j^{(L)} \text{ for } i \ne j \end{aligned} \]</div>
     <p>The Hungarian algorithm solves each group exactly. The result is collision-free whenever every prefix group fits in the codebook ($V = 256$ codes per level), which holds on all four datasets.</p>
 
     <details class="more" id="algorithm">
       <summary>Show Algorithm 1 (pseudocode)</summary>
-      <div class="algorithm-wrap">
+      <div class="algorithm-wrap" data-name="Algorithm 1">
         <pre id="zcr-algorithm" hidden>
 \begin{algorithm}
 \caption{Zero-Collision Reassignment}
@@ -335,7 +336,8 @@
           <button type="button" data-preset="same">Greedy matches ZCR: no saving</button>
         </div>
       </div>
-      <p class="zcr-sub">Drag an item (dot), or select it and then click where it should go or use the arrow keys. Each item is natively assigned its nearest code; items on the same code collide. Both methods reassign the same number of items but differ in which items they reassign and to which codes. Greedy, the rule used in MQL4GRec<sup><a href="#ref1">[1]</a></sup>, retains the item nearest to each shared code and reassigns the others to their nearest unused codes; ZCR selects the assignment that minimizes the total cost increase <span class="nowrap">$\sum \Delta D$</span> over the prefix group. Costs are squared distances in the drawing, scaled so that the first preset, the paper&rsquo;s case study (RK-Means on Beauty), reproduces its <span class="nowrap">$\Delta D = 20.65$ vs. $13.76$</span>.</p>
+      <noscript><p class="demo-explain">This interactive demo needs JavaScript.</p></noscript>
+      <p class="zcr-sub">Drag an item (dot), or select it and then click where it should go or use the arrow keys. Each item is natively assigned its nearest code; items on the same code collide. Both methods reassign the same number of items but differ in which items they reassign and to which codes. Greedy, the rule used in MQL4GRec<sup><a href="#ref1">[1]</a></sup>, retains the item nearest to each shared code and reassigns the others to their nearest unused codes; ZCR selects the assignment that minimizes the total cost increase <span class="nowrap">$\sum \Delta D$</span> over the prefix group. Costs are squared distances in the drawing, scaled so that the first preset, the paper&rsquo;s case study (<span class="nowrap">RK-Means</span> on Beauty), reproduces its <span class="nowrap">$\Delta D = 20.65$ vs. $13.76$</span>.</p>
       <div class="zcr-panels">
         <figure class="zcr-panel native">
           <figcaption><span>(a) Native collision</span><strong id="zcr-head-native"></strong></figcaption>
@@ -363,7 +365,7 @@
 
   <section id="results">
     <h2>Results</h2>
-    <h3>RQ1&ndash;2: Up to 103% inflation, enough to flip tokenizer rankings</h3>
+    <h3><span class="nowrap">RQ1&ndash;2</span>: Up to 103% inflation, enough to flip tokenizer rankings</h3>
     <div class="table-wrap" id="inflation">
       <table class="results">
         <caption>Collision-Induced Metric Inflation</caption>
@@ -390,7 +392,7 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note"><span class="note-key"><b>Coll.</b>: collision rate &middot; <b>H@10</b>: SID-level Hit@10 &middot; <b>IH@10</b>: item-level ItemHit@10 (CCE) &middot; <b>Infl.</b>: H@10&thinsp;/&thinsp;IH@10 &minus; 1 &middot; <b>Bold</b>: best per dataset</span><span class="note-take">Inflation grows with the collision rate, and RK-Means ranks first by Hit@10 but last by ItemHit@10 on Scientific, Cell, and Beauty.</span></p>
+    <p class="table-note"><span class="note-key"><b>Coll.</b>: collision rate &middot; <b>H@10</b>: SID-level Hit@10 &middot; <b>IH@10</b>: item-level ItemHit@10 (CCE) &middot; <b>Infl.</b>: H@10&thinsp;/&thinsp;IH@10 &minus; 1 &middot; <b>Bold</b>: best per dataset</span><span class="note-take">Inflation grows with the collision rate, and <span class="nowrap">RK-Means</span> ranks first by Hit@10 but last by ItemHit@10 on Scientific, Cell, and Beauty.</span></p>
 
     <h3>RQ3: ZCR removes collisions and improves all tokenizers</h3>
     <div class="metric-tabs" role="group" aria-label="Metric" hidden>
@@ -451,10 +453,10 @@
         </tbody>
       </table>
     </div>
-    <p class="table-note"><span class="note-key"><b>Arrow</b>: relative gain of +ZCR over the native tokenizer &middot; <b>built-in</b>: MQL4GRec is collision-free by design &middot; Mean of 3 seeds; per-cell std 0.0001&ndash;0.0032 (median 0.0011)</span><span class="note-take">Gains are largest where native collision rates are highest.</span></p>
+    <p class="table-note"><span class="note-key"><b>Arrow</b>: relative gain of +ZCR over the native tokenizer &middot; <b>built-in</b>: MQL4GRec is collision-free by design &middot; Mean of 3 seeds; per-cell std <span class="nowrap">0.0001&ndash;0.0032</span> (median 0.0011)</span><span class="note-take">Gains are largest where native collision rates are highest.</span></p>
 
     <details class="more" id="cost">
-      <summary>ZCR reassigns at 8&ndash;19% lower cost than greedy</summary>
+      <summary>ZCR reassigns at <span class="nowrap">8&ndash;19%</span> lower cost than greedy</summary>
       <div class="table-wrap">
         <table class="results">
           <caption>Reassignment Cost under the Zero-Collision Constraint</caption>
@@ -478,14 +480,14 @@
 
     <h3 id="why">Where do collisions come from?</h3>
     <figure class="wide">
-      <div class="fig-scroll" style="--mw:760px"><img src="static/img/collision_viz.svg" width="661" height="256" loading="lazy" alt="t-SNE plots for Cell and Yelp. In the Qwen3 text-embedding panels, items from each highlighted collision group overlap tightly; in the PPMI+SVD collaborative-embedding panels, the same items are spread apart. Light gray points belong to other collision groups."></div>
+      <div class="fig-scroll" data-name="t-SNE figure" style="--mw:760px"><img src="static/img/collision_viz.svg" width="661" height="256" loading="lazy" alt="t-SNE plots for Cell and Yelp. In the Qwen3 text-embedding panels, items from each highlighted collision group overlap tightly; in the PPMI+SVD collaborative-embedding panels, the same items are spread apart. Light gray points belong to other collision groups."></div>
       <figcaption><span class="note-key">t-SNE of Cell and Yelp items &middot; each color marks the items of one SID &middot; gray marks other collision groups</span><span class="note-take">Items that share one SID overlap in the text space (Qwen3) but spread out in the collaborative space (PPMI+SVD): semantic quantization cannot distinguish textually similar items that users interact with differently.</span></figcaption>
     </figure>
     <details class="more">
       <summary>Does adding collaborative signals help?</summary>
       <figure class="wide">
-        <div class="fig-scroll" style="--mw:560px"><img src="static/img/cf.svg" width="397" height="168" loading="lazy" alt="Grouped bar charts of ItemHit@10 (left) and ItemNDCG@10 (right) on Scientific, Cell, Beauty, and Yelp for RK-Means+ZCR, LETTER+ZCR, and RK-Means+ZCR+CF. The collaborative-fusion variant has the highest ItemHit@10 on every dataset, with the largest gain on Yelp."></div>
-        <figcaption><span class="note-key">ItemHit@10 and ItemNDCG@10 with zero collisions &middot; <b>+CF</b>: PPMI+SVD collaborative embeddings fused into the tokenizer input</span><span class="note-take">Yes: +CF gives the best ItemHit@10 on every dataset, +4.6% to +26.2% over LETTER+ZCR, and gains most on Yelp (+63.1% over RK-Means+ZCR), where item text is only a business name and categories.</span></figcaption>
+        <div class="fig-scroll" data-name="Collaborative signals figure" style="--mw:560px"><img src="static/img/cf.svg" width="397" height="168" loading="lazy" alt="Grouped bar charts of ItemHit@10 (left) and ItemNDCG@10 (right) on Scientific, Cell, Beauty, and Yelp for RK-Means+ZCR, LETTER+ZCR, and RK-Means+ZCR+CF. The collaborative-fusion variant has the highest ItemHit@10 on every dataset, with the largest gain on Yelp."></div>
+        <figcaption><span class="note-key">ItemHit@10 and ItemNDCG@10 with zero collisions &middot; <b>+CF</b>: PPMI+SVD collaborative embeddings fused into the tokenizer input</span><span class="note-take">Yes: +CF gives the best ItemHit@10 on every dataset, +4.6% to +26.2% over LETTER+ZCR, and gains most on Yelp (+63.1% over <span class="nowrap">RK-Means+ZCR</span>), where item text is only a business name and categories.</span></figcaption>
       </figure>
     </details>
 
@@ -494,7 +496,7 @@
       <div class="setup">
         <ul>
           <li><strong>Datasets:</strong> Amazon Scientific (Industrial and Scientific), Cell (Cell Phones and Accessories), and Beauty, plus Yelp; 5-core filtering and leave-one-out split. Item text: title, description, brand, and categories (Amazon); business name and categories (Yelp).</li>
-          <li><strong>Tokenizers:</strong> RK-Means<sup><a href="#ref4">[4]</a></sup>, RQ-VAE (TIGER<sup><a href="#ref5">[5]</a></sup>), LETTER<sup><a href="#ref2">[2]</a></sup>, QuaSID<sup><a href="#ref3">[3]</a></sup> (reproduced from the paper), and MQL4GRec<sup><a href="#ref1">[1]</a></sup> as a zero-collision reference. All use the same Qwen3-Embedding-8B text embeddings and SIDs of length $L=4$ over a codebook of size $V=256$.</li>
+          <li><strong>Tokenizers:</strong> <span class="nowrap">RK-Means</span><sup><a href="#ref4">[4]</a></sup>, <span class="nowrap">RQ-VAE</span> (TIGER<sup><a href="#ref5">[5]</a></sup>), LETTER<sup><a href="#ref2">[2]</a></sup>, QuaSID<sup><a href="#ref3">[3]</a></sup> (reproduced from the paper), and MQL4GRec<sup><a href="#ref1">[1]</a></sup> as a zero-collision reference. All use the same <span class="nowrap">Qwen3-Embedding-8B</span> text embeddings and SIDs of length $L=4$ over a codebook of size $V=256$.</li>
           <li><strong>Generator:</strong> the same T5 model for every tokenizer, trained from scratch (4 encoder/decoder layers, $d_{\text{model}}=128$, 6 heads); beam width 20.</li>
         </ul>
         <div class="table-wrap">
@@ -520,7 +522,7 @@
     <div class="qa">
       <details>
         <summary>Why not just append an extra code (TIGER) or use greedy reassignment (MQL4GRec)?</summary>
-        <p>ZCR is a post-tokenizer step: it works on existing tokenizers without retraining them, at minimum reassignment cost. The alternatives change what is being compared: TIGER<sup><a href="#ref5">[5]</a></sup> appends a non-semantic code that makes every SID longer, and greedy reassignment (MQL4GRec<sup><a href="#ref1">[1]</a></sup>) costs more, with ZCR lowering the total reassignment cost by 8&ndash;19%. ZCR keeps the SID length, so each tokenizer is compared close to its native assignment.</p>
+        <p>ZCR is a post-tokenizer step: it works on existing tokenizers without retraining them, at minimum reassignment cost. The alternatives change what is being compared: TIGER<sup><a href="#ref5">[5]</a></sup> appends a non-semantic code that makes every SID longer, and greedy reassignment (MQL4GRec<sup><a href="#ref1">[1]</a></sup>) costs more, with ZCR lowering the total reassignment cost by <span class="nowrap">8&ndash;19%</span>. ZCR keeps the SID length, so each tokenizer is compared close to its native assignment.</p>
       </details>
       <details>
         <summary>Why does CCE give uniform credit within a collision group?</summary>
@@ -528,7 +530,7 @@
       </details>
       <details>
         <summary>Where do ZCR&rsquo;s gains come from?</summary>
-        <p>Both variants train the same generator and are scored with CCE. With native SIDs, a hit on a collision group receives only fractional item-level credit; ZCR makes matched target SIDs unique, so these hits receive full credit. This is why gains are largest for the tokenizers with the most native collisions, RK-Means and RQ-VAE.</p>
+        <p>Both variants train the same generator and are scored with CCE. With native SIDs, a hit on a collision group receives only fractional item-level credit; ZCR makes matched target SIDs unique, so these hits receive full credit. This is why gains are largest for the tokenizers with the most native collisions, <span class="nowrap">RK-Means</span> and <span class="nowrap">RQ-VAE</span>.</p>
       </details>
       <details>
         <summary>How do I apply CCE or ZCR to my own tokenizer?</summary>
@@ -577,9 +579,9 @@
   Questions? Contact Qian Zhang at <a class="email-link" data-user="qian.zhang" data-domain="postgrad.otago.ac.nz"></a><noscript>qian.zhang [at] postgrad.otago.ac.nz</noscript>.
 </footer>
 
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/pseudocode@2.4.1/build/pseudocode.min.js"></script>
+<script defer src="static/vendor/katex-0.16.11/katex.min.js"></script>
+<script defer src="static/vendor/katex-0.16.11/auto-render.min.js"></script>
+<script defer src="static/vendor/pseudocode-2.4.1/pseudocode.min.js"></script>
 <script defer src="static/js/main.js"></script>
 </body>
 </html>

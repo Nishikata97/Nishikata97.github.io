@@ -4,18 +4,19 @@
 
   const SVG_NS = "http://www.w3.org/2000/svg";
 
+  // Each feature starts on its own, so that one failure (e.g. a script that did not load) leaves the others working.
   document.addEventListener("DOMContentLoaded", () => {
-    renderMath();
-    initCceDemo();
-    initZcrDemo();
-    initMetricTabs();
-    initNavSpy();
-    initAbstractToggle();
-    initLinkedDetails();
-    initCopyButtons();
-    initEmailLinks();
-    initPrint();
-    initScrollCues();
+    const features = [
+      renderMath, initCceDemo, initZcrDemo, initMetricTabs, initNavSpy, initAbstractToggle,
+      initLinkedDetails, initCopyButtons, initEmailLinks, initPrint, initScrollCues,
+    ];
+    for (const init of features) {
+      try {
+        init();
+      } catch (err) {
+        console.error(err);
+      }
+    }
   });
 
   // ---------------------------------------------------------------------------
@@ -55,10 +56,12 @@
   // Inline formulas in running text. style.css keeps the same selector on one line (white-space: nowrap).
   const INLINE_MATH = "main p .katex, main li .katex";
 
-  // Render Algorithm 1 first: auto-render would otherwise consume the $...$ inside it.
+  // Render Algorithm 1 first: auto-render would otherwise consume the $...$ inside it. Without pseudocode.js or
+  // KaTeX, show its LaTeX source instead.
   function renderMath() {
     const algo = document.getElementById("zcr-algorithm");
-    if (algo && window.pseudocode) pseudocode.renderElement(algo, { lineNumber: true });
+    if (algo && window.pseudocode && window.katex) pseudocode.renderElement(algo, { lineNumber: true });
+    else if (algo) algo.hidden = false;
     if (!window.renderMathInElement) return;
     renderMathInElement(document.body, {
       delimiters: [
@@ -131,7 +134,7 @@
   // The sentence under the CCE demo: why the SID-level and item-level scores agree or differ.
   function cceExplain({ K, r, g, a, p, inBeam, m, hit }) {
     const top = K === 1 ? "the top position" : `the top ${K}`;
-    const span = g === 1 ? `position ${p}` : `positions ${p}\u2013${p + g - 1}`;
+    const span = g === 1 ? `position ${p}` : `positions ${p}\u2060\u2013\u2060${p + g - 1}`;
     if (!inBeam) return `The target SID is ranked ${ordinal(r)}, outside ${top}, so all four metrics are 0.`;
     if (m === g && g === 1 && a === 0) {
       return r === 1
@@ -224,15 +227,24 @@
       }
     }
 
-    // Shrink the cells (down to 70%) until the rows fit the width; below that the rows scroll sideways
-    // (they never wrap, so the links from s_{t+1} never cross another row).
+    // Shrink the cells (down to 70%) until the rows fit the width. If they still do not fit, put the row labels
+    // above the cells and shrink again; beyond that the rows scroll sideways (they never wrap, so the links from
+    // s_{t+1} never cross another row).
     function fitRows() {
       const fits = () => track.scrollWidth <= rowsEl.clientWidth;
-      let s = 1;
-      rowsEl.style.setProperty("--s", s);
-      while (!fits() && s > 0.7) {
-        s = Math.max(0.7, s - 0.03);
-        rowsEl.style.setProperty("--s", s.toFixed(2));
+      const shrink = () => {
+        let s = 1;
+        rowsEl.style.setProperty("--s", s);
+        while (!fits() && s > 0.7) {
+          s = Math.max(0.7, s - 0.03);
+          rowsEl.style.setProperty("--s", s.toFixed(2));
+        }
+        return fits();
+      };
+      rowsEl.classList.remove("stacked");
+      if (!shrink()) {
+        rowsEl.classList.add("stacked");
+        shrink();
       }
     }
 
@@ -261,7 +273,8 @@
       showTarget();
     }
 
-    function update() {
+    // speak: announce the result (only for the reader's own changes, not when the page loads).
+    function update(speak) {
       const K = +inputs.K.value;
       const r = +inputs.r.value;
       const g = +inputs.g.value;
@@ -289,8 +302,10 @@
 
       const text = cceExplain({ K, r, g, a, ...scores });
       explainEl.textContent = text;
-      announce(`Hit@${K} = ${hit}, ItemHit@${K} = ${fraction(m, g)}, NDCG@${K} = ${ndcg.toFixed(3)}, ` +
-        `ItemNDCG@${K} = ${indcg.toFixed(3)}. ${text}`);
+      if (speak) {
+        announce(`Hit@${K} = ${hit}, ItemHit@${K} = ${fraction(m, g)}, NDCG@${K} = ${ndcg.toFixed(3)}, ` +
+          `ItemNDCG@${K} = ${indcg.toFixed(3)}. ${text}`);
+      }
 
       const values = { K, r, g, a };
       presetButtons.forEach((btn) => {
@@ -315,14 +330,14 @@
     }).observe(rowsEl);
     if (document.fonts) document.fonts.ready.then(() => { fitRows(); drawLinks(); });
 
-    for (const k of CCE_KEYS) inputs[k].addEventListener("input", update);
+    for (const k of CCE_KEYS) inputs[k].addEventListener("input", () => update(true));
     presetButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         for (const k of CCE_KEYS) inputs[k].value = CCE_PRESETS[btn.dataset.preset][k];
-        update();
+        update(true);
       });
     });
-    update();
+    update(false);
   }
 
   // ---------------------------------------------------------------------------
@@ -710,11 +725,13 @@
       state.items[i].x = clamp(x, INSET.x, ZCR_PANEL.w - INSET.x);
       state.items[i].y = clamp(y, INSET.top, ZCR_PANEL.h - INSET.bottom);
       setPreset(null);
-      render();
+      render(true);
     }
 
     function attachDrag(svg, dot, i) {
-      dot.addEventListener("focus", () => { selected = i; });
+      // A touch that starts on an item drags it instead of scrolling the page (touch-action on an SVG shape is
+      // ignored); touches elsewhere on the drawing still scroll.
+      dot.addEventListener("touchstart", (e) => e.preventDefault(), { passive: false });
       dot.addEventListener("pointerdown", (e) => {
         e.preventDefault();
         // preventDefault also blocks the click from focusing the item; focus it (its native twin in the
@@ -735,6 +752,13 @@
       };
       dot.addEventListener("pointerup", end);
       dot.addEventListener("pointercancel", end);
+    }
+
+    // The native panel's items are the focusable ones: the selection follows their focus, and arrow keys move them.
+    // (Chrome makes any SVG element with a focus listener a Tab stop, so the other panels get none.)
+    function attachKeys(dot, i) {
+      dot.addEventListener("focus", () => { selected = i; });
+      dot.addEventListener("blur", () => { if (selected === i) selected = null; });
       dot.addEventListener("keydown", (e) => {
         const step = e.shiftKey ? 20 : 5;
         const d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
@@ -757,7 +781,8 @@
       });
     });
 
-    function describe(sol) {
+    // speak: announce the result (only for the reader's own changes, not when the page loads).
+    function describe(sol, speak) {
       const collided = [...new Set(sol.native.filter((c, i) => sol.native.indexOf(c) !== i))];
       const saving = sol.greedy.cost > EPS ? Math.round((1 - sol.zcr.cost / sol.greedy.cost) * 100) : 0;
       el.headNative.innerHTML = collided.length
@@ -771,6 +796,7 @@
       el.saving.textContent = `${saving}%`;
       el.explain.innerHTML = zcrExplain(state, sol, saving);
       glueMath(el.explain.querySelectorAll(".katex"));
+      if (!speak) return;
       // Plain text for the screen-reader announcement: each formula as it reads on screen.
       const plain = el.explain.cloneNode(true);
       plain.querySelectorAll(".katex").forEach((k) => {
@@ -780,28 +806,33 @@
         plain.textContent);
     }
 
-    function render() {
+    function render(speak) {
       const sol = zcrSolve(state.items, state.codes);
       views.forEach((view) => drawZcrView(state, view, sol));
-      describe(sol);
+      describe(sol, speak);
     }
 
     function setPreset(name) {
       presetButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.preset === name)));
     }
 
-    function load(name) {
-      state = structuredClone(ZCR_PRESETS[name]);
+    function load(name, speak) {
+      state = JSON.parse(JSON.stringify(ZCR_PRESETS[name]));
       selected = null;
       views = svgs.map((svg) => buildZcrView(svg, state));
-      views.forEach((view) => view.items.forEach((v, i) => attachDrag(view.svg, v.dot, i)));
+      for (const view of views) {
+        view.items.forEach((v, i) => {
+          attachDrag(view.svg, v.dot, i);
+          if (view.method === "native") attachKeys(v.dot, i);
+        });
+      }
       setPreset(name);
-      render();
+      render(speak);
     }
 
-    presetButtons.forEach((b) => b.addEventListener("click", () => load(b.dataset.preset)));
-    load("paper");
-    if (document.fonts) document.fonts.ready.then(render);
+    presetButtons.forEach((b) => b.addEventListener("click", () => load(b.dataset.preset, true)));
+    load("paper", false);
+    if (document.fonts) document.fonts.ready.then(() => render(false));
   }
 
   // ---------------------------------------------------------------------------
@@ -832,10 +863,11 @@
     if (!nav) return;
     const links = [...nav.querySelectorAll("a")];
     const targets = links.map((a) => document.querySelector(a.getAttribute("href")));
-    // A little below where anchored sections land (the scroll-padding-top that clears the sticky bar).
-    const line = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) + 16;
     let current = null;
     function update() {
+      // A little below where anchored sections land (the scroll-padding-top that clears the sticky bar). Read on
+      // every update: Safari can run this script before the stylesheet applies.
+      const line = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 64) + 16;
       let active = links[0];
       targets.forEach((el, i) => {
         if (el && el.getBoundingClientRect().top <= line) active = links[i];
@@ -945,16 +977,13 @@
     });
   }
 
-  // Sideways scrollers (wide figures and tables on phones, long equations, the phone nav, the CCE rows):
+  // Sideways scrollers (wide figures and tables on phones, long equations, Algorithm 1, the phone nav, the CCE rows):
   // fade the edge that has more content, say so under a figure, and make a scrolling region focusable
   // so it can be scrolled from the keyboard.
   function initScrollCues() {
-    const SCROLLERS = ".fig-scroll, .table-wrap, .eq, .cce-rows, .site-nav";
-    const labelFor = (el) => {
-      if (el.classList.contains("fig-scroll")) return "Figure, scrolls sideways";
-      if (el.classList.contains("eq")) return "Equation, scrolls sideways";
-      return `${el.querySelector("caption")?.textContent ?? "Table"}, scrolls sideways`;
-    };
+    const SCROLLERS = ".fig-scroll, .table-wrap, .eq, .algorithm-wrap, .cce-rows, .site-nav";
+    // Named by data-name (figures, equations, the algorithm) or by the table's caption.
+    const labelFor = (el) => `${el.dataset.name ?? el.querySelector("caption")?.textContent ?? "Table"}, scrolls sideways`;
     const update = (el) => {
       const scrolls = el.scrollWidth > el.clientWidth + 1;
       el.classList.toggle("scrolls", scrolls);
